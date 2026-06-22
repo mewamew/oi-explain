@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P10726 题解 - 洛谷训练 558</title>
+  <style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #202124;
+  --muted: #68635c;
+  --line: #d9d2c4;
+  --accent: #0f766e;
+  --accent-2: #9a3412;
+  --soft: #eef7f4;
+  --code: #18212f;
+  --code-ink: #f7fafc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.72;
+}
+main {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0 24px;
+  margin-bottom: 20px;
+}
+.eyebrow {
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  margin: 0 0 12px;
+  letter-spacing: 0;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 820px;
+  margin: 0;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: #403b35;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffdf8;
+  color: var(--ink);
+}
+.card:hover { text-decoration: none; border-color: var(--accent); }
+.card strong { display: block; margin-bottom: 6px; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+section {
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+h3 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+ol, ul { padding-left: 1.35rem; }
+li + li { margin-top: 6px; }
+.hint {
+  background: var(--soft);
+  border-color: #b7ded5;
+}
+.lesson-panel {
+  border-left: 4px solid var(--accent);
+  background: #f5fbf8;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin: 12px 0 16px;
+}
+.lesson-panel p,
+.deep-body p,
+.code-guide li {
+  margin-top: 0;
+}
+.lesson-panel p:last-child,
+.deep-body p:last-child {
+  margin-bottom: 0;
+}
+.deep-body p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.micro-title {
+  display: inline-block;
+  min-width: 8em;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.sample-block, .code-block {
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--code-ink);
+  padding: 14px;
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.sample-title {
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 6px;
+}
+.code-block {
+  font-size: 12.5px;
+  max-height: none;
+}
+.code-lock .unlock-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  border: 1px solid #c8ddd6;
+  border-radius: 8px;
+  background: #f2faf7;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.code-lock label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.code-lock input {
+  width: 9em;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+.code-lock button {
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 14px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.code-lock button:hover { filter: brightness(0.95); }
+.code-status {
+  min-width: 8em;
+  color: var(--accent-2);
+  font-size: 13px;
+}
+.code-block.locked {
+  color: #cfd8e3;
+}
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+@media (max-width: 640px) {
+  main { width: min(100% - 20px, 1080px); padding-top: 18px; }
+  section { padding: 15px; }
+  .code-lock .unlock-panel { grid-template-columns: 1fr; }
+  .code-lock input { width: 100%; }
+  .footer-nav { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="topbar">
+    <a href="index.html">洛谷训练 558 题解索引</a>
+    <a href="https://www.luogu.com.cn/problem/P10726">打开洛谷题面</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">第 08 题 · P10726</div>
+    <h1>[GESP202406 八级] 空间跳跃</h1>
+    <p class="subtitle">面向 GESP 八级练习的浅显题解。题面原文以洛谷为准，这里重点讲如何读题、如何一步步想到做法，以及代码怎样落地。</p>
+    <div class="meta"><span class="chip">图论</span><span class="chip">Dijkstra</span><span class="chip">建图</span><span class="chip">模拟下落</span></div>
+  </header>
+
+  <section>
+    <h2>0. 类型标签</h2>
+    <p>图论, Dijkstra, 建图, 模拟下落</p>
+  </section>
+
+  <section>
+    <h2>1. 题意</h2>
+    <p>人在水平挡板上左右走，到端点会下落到下方第一个挡板，求从起点挡板左端到目标挡板的最短时间。</p>
+  </section>
+
+  <section class="hint">
+    <h2>2. 一点点思路提示</h2>
+    <p>真正需要决策的位置只有每块挡板的左右端点；在挡板内部落下时，如果目标就是这块挡板，可以直接停止。</p>
+  </section>
+
+  <section>
+    <h2>3. 解题思路</h2>
+    <div class="lesson-panel">
+      <p><span class="micro-title">先读题抓信号</span>题目里位置是挡板端点、移动和下落都有费用，问最短时间。这是把真实场景抽象成图，然后跑最短路的题。</p>
+      <p><span class="micro-title">为什么不能暴力</span>如果在平面上每个坐标都当成状态，坐标到 10^5，不仅状态多，而且很多位置根本不需要决策。</p>
+    </div>
+    <h3>先用几步抓住主线</h3>
+    <ol><li>把每块挡板的左端点和右端点各看成一个状态。</li><li>同一块挡板左右端点之间连边，费用是挡板长度。</li><li>从一个端点往下掉，找到包含这个 x 坐标且高度最高的下方挡板；如果落到普通挡板，就连到它的左右端点，费用为下落高度加上落点到端点的水平距离。</li><li>再加一个虚拟终点：只要已经在目标挡板上，或者下落到目标挡板，就可以用当前费用结束。</li></ol>
+    <h3>一步一步推到正解</h3>
+    <div class="deep-body">
+      <p>人在挡板中间时，其实只有两个选择：往左端点走，或者往右端点走。真正会改变所在挡板的动作，只发生在端点下落的时候。</p>
+      <p>所以我们把每块挡板的左端点和右端点看成两个状态。站在同一块挡板的两个端点之间，可以互相走，费用是挡板长度。</p>
+      <p>从一个端点往下掉时，x 坐标不变。我们要找所有更低、并且横向范围覆盖这个 x 的挡板里高度最高的那一块，它就是第一个接住人的挡板。</p>
+      <p>如果落到普通挡板的中间，还需要选择最后站到它的左端点或右端点，所以连两条边：下落高度 + 走到左端点的距离，下落高度 + 走到右端点的距离。</p>
+      <p>题目说到达第 t 个挡板即可，不要求走到它的端点。因此可以建一个虚拟终点：只要已经在目标挡板端点，或者下落到了目标挡板，就能以当前费用结束。</p>
+      <p>图建好后，从起点挡板左端点跑 Dijkstra，虚拟终点的距离就是答案。</p>
+    </div>
+    <h3>代码怎么对应这个想法</h3>
+    <ul class="code-guide"><li>`left_id(i)` 和 `right_id(i)` 把每块挡板的两个端点编号成图上的点。</li><li>`add_drop` 枚举下方挡板，选高度最高的那块作为落点。</li><li>落到目标挡板时直接连到虚拟终点，费用只算下落，不强迫走到端点。</li><li>n≤1000，所以枚举端点和挡板的 O(n^2) 建图可以接受。</li></ul>
+    <p><strong>复杂度：</strong>n≤1000，枚举每个端点下方挡板 O(n^2)，之后 Dijkstra 很小。</p>
+  </section>
+
+  <section>
+    <h2>4. 用测试样例验证解题思路</h2>
+    <p>样例从第 3 块挡板左端走到右端花 3，再下落到第 2 块，继续移动和下落到第 1 块，总费用正好是 100001。</p>
+    <div class="samples">
+      <div>
+        <p class="sample-title">样例 1 输入</p>
+        <pre class="sample-block">3
+3 1
+5 6 3
+3 5 6
+1 4 100000</pre>
+        <p class="sample-title">样例 1 输出</p>
+        <pre class="sample-block">100001</pre>
+      </div></div>
+  </section>
+
+  <section>
+    <h2>容易错的地方</h2>
+    <ul><li>下落的竖线在端点的 x 坐标处，不是端点外一格。</li><li>目标是“到达挡板”，不一定要走到目标挡板端点。</li></ul>
+  </section>
+
+  <section class="code-lock" data-pid="P10726" data-payload="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">
+    <h2>C++ 实现代码</h2>
+    <div class="unlock-panel">
+      <label>本题代码密码
+        <input class="code-password" type="password" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="off" placeholder="6 位数字">
+      </label>
+      <button class="unlock-button" type="button">查看代码</button>
+      <span class="code-status" aria-live="polite"></span>
+    </div>
+    <pre class="code-block locked"><code>代码已锁定。输入本题 6 位密码后显示。</code></pre>
+  </section>
+
+  <section>
+    <h2>校验袋记录</h2>
+    <p>本页生成后会由独立校验脚本抽取 C++17 代码，编译并运行洛谷题面缓存中的样例；同时检查章节、链接、标签和样例块是否齐全。</p>
+  </section>
+
+  <div class="footer-nav">
+    <a class="card" href="07-P10725.html">← 上一题：P10725</a>
+    <a class="card" href="09-P11250.html">下一题：P11250 →</a>
+  </div>
+</main>
+<script>
+(function () {
+  const MASK = (1n << 64n) - 1n;
+  const OFFSET = 14695981039346656037n;
+  const PRIME = 1099511628211n;
+  const STEP = 0x9E3779B97F4A7C15n;
+
+  function seedFromText(text) {
+    let seed = OFFSET;
+    for (let i = 0; i < text.length; i += 1) {
+      seed ^= BigInt(text.charCodeAt(i) & 255);
+      seed = (seed * PRIME) & MASK;
+    }
+    return seed;
+  }
+
+  function splitmix64(state) {
+    state = (state + STEP) & MASK;
+    let z = state;
+    z = ((z ^ (z >> 30n)) * 0xBF58476D1CE4E5B9n) & MASK;
+    z = ((z ^ (z >> 27n)) * 0x94D049BB133111EBn) & MASK;
+    z = (z ^ (z >> 31n)) & MASK;
+    return [state, z];
+  }
+
+  function streamBytes(pid, password, length) {
+    let state = seedFromText(`${password}:${pid}:GESP8`);
+    const out = new Uint8Array(length);
+    let offset = 0;
+    while (offset < length) {
+      let mixed;
+      [state, mixed] = splitmix64(state);
+      for (let i = 0; i < 8 && offset < length; i += 1) {
+        out[offset] = Number((mixed >> BigInt(8 * i)) & 255n);
+        offset += 1;
+      }
+    }
+    return out;
+  }
+
+  function decodePayload(payload, pid, password) {
+    const raw = atob(payload);
+    const cipher = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i += 1) cipher[i] = raw.charCodeAt(i);
+    const stream = streamBytes(pid, password, cipher.length);
+    const plain = new Uint8Array(cipher.length);
+    for (let i = 0; i < cipher.length; i += 1) plain[i] = cipher[i] ^ stream[i];
+    const text = new TextDecoder("utf-8", { fatal: false }).decode(plain);
+    const marker = `// LUOGU558:${pid}\n`;
+    if (!text.startsWith(marker)) throw new Error("bad password");
+    return text.slice(marker.length).replace(/\s+$/, "");
+  }
+
+  document.querySelectorAll(".code-lock").forEach((box) => {
+    const input = box.querySelector(".code-password");
+    const button = box.querySelector(".unlock-button");
+    const status = box.querySelector(".code-status");
+    const code = box.querySelector("code");
+    const pre = box.querySelector("pre");
+    const pid = box.dataset.pid;
+    const payload = box.dataset.payload;
+
+    function unlock() {
+      const password = (input.value || "").trim();
+      if (!/^\d{6}$/.test(password)) {
+        status.textContent = "请输入 6 位数字密码";
+        return;
+      }
+      try {
+        code.textContent = decodePayload(payload, pid, password);
+        pre.classList.remove("locked");
+        status.textContent = "已解锁";
+        input.value = "";
+      } catch (error) {
+        status.textContent = "密码不对";
+      }
+    }
+
+    button.addEventListener("click", unlock);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") unlock();
+    });
+  });
+}());
+</script>
+</body>
+</html>

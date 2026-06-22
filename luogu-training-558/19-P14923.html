@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P14923 题解 - 洛谷训练 558</title>
+  <style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #202124;
+  --muted: #68635c;
+  --line: #d9d2c4;
+  --accent: #0f766e;
+  --accent-2: #9a3412;
+  --soft: #eef7f4;
+  --code: #18212f;
+  --code-ink: #f7fafc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.72;
+}
+main {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0 24px;
+  margin-bottom: 20px;
+}
+.eyebrow {
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  margin: 0 0 12px;
+  letter-spacing: 0;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 820px;
+  margin: 0;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: #403b35;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffdf8;
+  color: var(--ink);
+}
+.card:hover { text-decoration: none; border-color: var(--accent); }
+.card strong { display: block; margin-bottom: 6px; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+section {
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+h3 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+ol, ul { padding-left: 1.35rem; }
+li + li { margin-top: 6px; }
+.hint {
+  background: var(--soft);
+  border-color: #b7ded5;
+}
+.lesson-panel {
+  border-left: 4px solid var(--accent);
+  background: #f5fbf8;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin: 12px 0 16px;
+}
+.lesson-panel p,
+.deep-body p,
+.code-guide li {
+  margin-top: 0;
+}
+.lesson-panel p:last-child,
+.deep-body p:last-child {
+  margin-bottom: 0;
+}
+.deep-body p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.micro-title {
+  display: inline-block;
+  min-width: 8em;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.sample-block, .code-block {
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--code-ink);
+  padding: 14px;
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.sample-title {
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 6px;
+}
+.code-block {
+  font-size: 12.5px;
+  max-height: none;
+}
+.code-lock .unlock-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  border: 1px solid #c8ddd6;
+  border-radius: 8px;
+  background: #f2faf7;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.code-lock label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.code-lock input {
+  width: 9em;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+.code-lock button {
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 14px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.code-lock button:hover { filter: brightness(0.95); }
+.code-status {
+  min-width: 8em;
+  color: var(--accent-2);
+  font-size: 13px;
+}
+.code-block.locked {
+  color: #cfd8e3;
+}
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+@media (max-width: 640px) {
+  main { width: min(100% - 20px, 1080px); padding-top: 18px; }
+  section { padding: 15px; }
+  .code-lock .unlock-panel { grid-template-columns: 1fr; }
+  .code-lock input { width: 100%; }
+  .footer-nav { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="topbar">
+    <a href="index.html">洛谷训练 558 题解索引</a>
+    <a href="https://www.luogu.com.cn/problem/P14923">打开洛谷题面</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">第 19 题 · P14923</div>
+    <h1>[GESP202512 八级] 猫和老鼠</h1>
+    <p class="subtitle">面向 GESP 八级练习的浅显题解。题面原文以洛谷为准，这里重点讲如何读题、如何一步步想到做法，以及代码怎样落地。</p>
+    <div class="meta"><span class="chip">图论</span><span class="chip">Dijkstra</span><span class="chip">最短路</span><span class="chip">最大可行时间</span></div>
+  </header>
+
+  <section>
+    <h2>0. 类型标签</h2>
+    <p>图论, Dijkstra, 最短路, 最大可行时间</p>
+  </section>
+
+  <section>
+    <h2>1. 题意</h2>
+    <p>猫从猫窝出发，老鼠只拿安全点的奶酪；安全表示老鼠能一路严格早于猫到达路径上的每个点并逃到洞里。</p>
+  </section>
+
+  <section class="hint">
+    <h2>2. 一点点思路提示</h2>
+    <p>只看到洞的最短路还不够，因为最后到洞也必须严格早于猫。可以反过来算：每个点最晚什么时候到达还来得及安全逃走。</p>
+  </section>
+
+  <section>
+    <h2>3. 解题思路</h2>
+    <div class="lesson-panel">
+      <p><span class="micro-title">先读题抓信号</span>题目同时有猫的最短时间和老鼠沿某条逃跑路径的时间，并且要求路径上每个点都严格安全。这是两次最短路/最优余量传播。</p>
+      <p><span class="micro-title">为什么不能暴力</span>对每个点都单独搜索一条安全逃跑路径，n、m 到 10^5，会超时。</p>
+    </div>
+    <h3>先用几步抓住主线</h3>
+    <ol><li>先从猫窝跑 Dijkstra，得到猫到每个点的最短时间 cat[x]。</li><li>设 safe[x] 表示老鼠到达 x 的最晚整数时间，仍然能安全逃到洞。洞 b 的 safe[b] 是 cat[b]-1。</li><li>如果从 x 走边到 y，边长为 w，那么到 x 的时间必须不超过 safe[y]-w，同时也必须小于 cat[x]。</li><li>用最大堆从洞往外扩展，每次用 min(cat[x]-1, safe[y]-w) 更新邻点 x。</li><li>最后 safe[x]≥0 的点，就是老鼠从该点 0 时刻出发能安全逃走的点，把奶酪价值加起来。</li></ol>
+    <h3>一步一步推到正解</h3>
+    <div class="deep-body">
+      <p>先把猫的能力算清楚：猫从猫窝出发，到每个点最快要多久。这个用一次 Dijkstra 得到 `cat[x]`。</p>
+      <p>老鼠从某个点 u 出发是否安全，不只看能不能比猫早到老鼠洞，还要求路径上的每一个点 x，老鼠到达 x 的时间都严格小于 cat[x]。</p>
+      <p>我们反过来从老鼠洞 b 往外推。设 `safe[x]` 表示：老鼠最晚在什么时候到达 x，仍然能从 x 安全逃到洞。</p>
+      <p>在洞 b 处，老鼠到达 b 的时间必须小于 cat[b]，所以最晚是 `cat[b]-1`。因为边权是整数，严格小于可以写成减 1。</p>
+      <p>如果从 u 走到 v，边长 w，并且 v 已经知道最晚安全到达时间 safe[v]，那么 u 的到达时间不能超过 `safe[v]-w`，同时也必须小于猫到 u 的时间，即不超过 `cat[u]-1`。</p>
+      <p>所以从 v 反推 u 的候选值是 `min(cat[u]-1, safe[v]-w)`。候选值越大越好，用最大堆不断扩展。</p>
+      <p>最后 `safe[u] &gt;= 0` 表示老鼠从 u 在 0 时刻出发可以安全逃走，这个点的奶酪就能拿。</p>
+    </div>
+    <h3>代码怎么对应这个想法</h3>
+    <ul class="code-guide"><li>第一遍 Dijkstra 从猫窝 a 出发，得到 `cat`。</li><li>第二遍用最大堆，从洞 b 开始传播 `safe`。</li><li>更新公式是 `cand = min(cat[to]-1, cur-w)`。</li><li>答案累加所有 `safe[i] &gt;= 0` 的奶酪价值，价值和用 long long。</li></ul>
+    <p><strong>复杂度：</strong>两次堆过程，O((n+m) log n)。</p>
+  </section>
+
+  <section>
+    <h2>4. 用测试样例验证解题思路</h2>
+    <p>样例一中点 4 虽然到洞的最短距离看起来不远，但到洞时无法严格早于猫，所以不安全；最终只加上安全点的价值，得到 22。</p>
+    <div class="samples">
+      <div>
+        <p class="sample-title">样例 1 输入</p>
+        <pre class="sample-block">5 5
+1 2
+1 2 4 8 16
+1 2 4
+2 3 3
+3 4 1
+2 5 2
+3 1 8</pre>
+        <p class="sample-title">样例 1 输出</p>
+        <pre class="sample-block">22</pre>
+      </div>
+
+      <div>
+        <p class="sample-title">样例 2 输入</p>
+        <pre class="sample-block">6 10
+3 4
+1 1 1 1 1 1
+1 2 6
+2 3 3
+3 1 4
+3 4 5
+4 5 8
+5 6 2
+6 4 1
+3 2 4
+5 4 4
+3 3 6</pre>
+        <p class="sample-title">样例 2 输出</p>
+        <pre class="sample-block">3</pre>
+      </div></div>
+  </section>
+
+  <section>
+    <h2>容易错的地方</h2>
+    <ul><li>题目要求严格大于，所以整数时间要用 cat[x]-1。</li><li>不能只判断 dist_to_hole[x] &lt; dist_cat[x]。</li></ul>
+  </section>
+
+  <section class="code-lock" data-pid="P14923" data-payload="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">
+    <h2>C++ 实现代码</h2>
+    <div class="unlock-panel">
+      <label>本题代码密码
+        <input class="code-password" type="password" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="off" placeholder="6 位数字">
+      </label>
+      <button class="unlock-button" type="button">查看代码</button>
+      <span class="code-status" aria-live="polite"></span>
+    </div>
+    <pre class="code-block locked"><code>代码已锁定。输入本题 6 位密码后显示。</code></pre>
+  </section>
+
+  <section>
+    <h2>校验袋记录</h2>
+    <p>本页生成后会由独立校验脚本抽取 C++17 代码，编译并运行洛谷题面缓存中的样例；同时检查章节、链接、标签和样例块是否齐全。</p>
+  </section>
+
+  <div class="footer-nav">
+    <a class="card" href="18-P14080.html">← 上一题：P14080</a>
+    <a class="card" href="20-P14924.html">下一题：P14924 →</a>
+  </div>
+</main>
+<script>
+(function () {
+  const MASK = (1n << 64n) - 1n;
+  const OFFSET = 14695981039346656037n;
+  const PRIME = 1099511628211n;
+  const STEP = 0x9E3779B97F4A7C15n;
+
+  function seedFromText(text) {
+    let seed = OFFSET;
+    for (let i = 0; i < text.length; i += 1) {
+      seed ^= BigInt(text.charCodeAt(i) & 255);
+      seed = (seed * PRIME) & MASK;
+    }
+    return seed;
+  }
+
+  function splitmix64(state) {
+    state = (state + STEP) & MASK;
+    let z = state;
+    z = ((z ^ (z >> 30n)) * 0xBF58476D1CE4E5B9n) & MASK;
+    z = ((z ^ (z >> 27n)) * 0x94D049BB133111EBn) & MASK;
+    z = (z ^ (z >> 31n)) & MASK;
+    return [state, z];
+  }
+
+  function streamBytes(pid, password, length) {
+    let state = seedFromText(`${password}:${pid}:GESP8`);
+    const out = new Uint8Array(length);
+    let offset = 0;
+    while (offset < length) {
+      let mixed;
+      [state, mixed] = splitmix64(state);
+      for (let i = 0; i < 8 && offset < length; i += 1) {
+        out[offset] = Number((mixed >> BigInt(8 * i)) & 255n);
+        offset += 1;
+      }
+    }
+    return out;
+  }
+
+  function decodePayload(payload, pid, password) {
+    const raw = atob(payload);
+    const cipher = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i += 1) cipher[i] = raw.charCodeAt(i);
+    const stream = streamBytes(pid, password, cipher.length);
+    const plain = new Uint8Array(cipher.length);
+    for (let i = 0; i < cipher.length; i += 1) plain[i] = cipher[i] ^ stream[i];
+    const text = new TextDecoder("utf-8", { fatal: false }).decode(plain);
+    const marker = `// LUOGU558:${pid}\n`;
+    if (!text.startsWith(marker)) throw new Error("bad password");
+    return text.slice(marker.length).replace(/\s+$/, "");
+  }
+
+  document.querySelectorAll(".code-lock").forEach((box) => {
+    const input = box.querySelector(".code-password");
+    const button = box.querySelector(".unlock-button");
+    const status = box.querySelector(".code-status");
+    const code = box.querySelector("code");
+    const pre = box.querySelector("pre");
+    const pid = box.dataset.pid;
+    const payload = box.dataset.payload;
+
+    function unlock() {
+      const password = (input.value || "").trim();
+      if (!/^\d{6}$/.test(password)) {
+        status.textContent = "请输入 6 位数字密码";
+        return;
+      }
+      try {
+        code.textContent = decodePayload(payload, pid, password);
+        pre.classList.remove("locked");
+        status.textContent = "已解锁";
+        input.value = "";
+      } catch (error) {
+        status.textContent = "密码不对";
+      }
+    }
+
+    button.addEventListener("click", unlock);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") unlock();
+    });
+  });
+}());
+</script>
+</body>
+</html>

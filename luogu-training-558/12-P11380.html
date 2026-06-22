@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P11380 题解 - 洛谷训练 558</title>
+  <style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #202124;
+  --muted: #68635c;
+  --line: #d9d2c4;
+  --accent: #0f766e;
+  --accent-2: #9a3412;
+  --soft: #eef7f4;
+  --code: #18212f;
+  --code-ink: #f7fafc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.72;
+}
+main {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0 24px;
+  margin-bottom: 20px;
+}
+.eyebrow {
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  margin: 0 0 12px;
+  letter-spacing: 0;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 820px;
+  margin: 0;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: #403b35;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffdf8;
+  color: var(--ink);
+}
+.card:hover { text-decoration: none; border-color: var(--accent); }
+.card strong { display: block; margin-bottom: 6px; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+section {
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+h3 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+ol, ul { padding-left: 1.35rem; }
+li + li { margin-top: 6px; }
+.hint {
+  background: var(--soft);
+  border-color: #b7ded5;
+}
+.lesson-panel {
+  border-left: 4px solid var(--accent);
+  background: #f5fbf8;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin: 12px 0 16px;
+}
+.lesson-panel p,
+.deep-body p,
+.code-guide li {
+  margin-top: 0;
+}
+.lesson-panel p:last-child,
+.deep-body p:last-child {
+  margin-bottom: 0;
+}
+.deep-body p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.micro-title {
+  display: inline-block;
+  min-width: 8em;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.sample-block, .code-block {
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--code-ink);
+  padding: 14px;
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.sample-title {
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 6px;
+}
+.code-block {
+  font-size: 12.5px;
+  max-height: none;
+}
+.code-lock .unlock-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  border: 1px solid #c8ddd6;
+  border-radius: 8px;
+  background: #f2faf7;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.code-lock label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.code-lock input {
+  width: 9em;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+.code-lock button {
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 14px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.code-lock button:hover { filter: brightness(0.95); }
+.code-status {
+  min-width: 8em;
+  color: var(--accent-2);
+  font-size: 13px;
+}
+.code-block.locked {
+  color: #cfd8e3;
+}
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+@media (max-width: 640px) {
+  main { width: min(100% - 20px, 1080px); padding-top: 18px; }
+  section { padding: 15px; }
+  .code-lock .unlock-panel { grid-template-columns: 1fr; }
+  .code-lock input { width: 100%; }
+  .footer-nav { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="topbar">
+    <a href="index.html">洛谷训练 558 题解索引</a>
+    <a href="https://www.luogu.com.cn/problem/P11380">打开洛谷题面</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">第 12 题 · P11380</div>
+    <h1>[GESP202412 八级] 排队</h1>
+    <p class="subtitle">面向 GESP 八级练习的浅显题解。题面原文以洛谷为准，这里重点讲如何读题、如何一步步想到做法，以及代码怎样落地。</p>
+    <div class="meta"><span class="chip">组合计数</span><span class="chip">图</span><span class="chip">拓扑判断</span><span class="chip">阶乘</span></div>
+  </header>
+
+  <section>
+    <h2>0. 类型标签</h2>
+    <p>组合计数, 图, 拓扑判断, 阶乘</p>
+  </section>
+
+  <section>
+    <h2>1. 题意</h2>
+    <p>n 个同学排队，若干要求规定 a 必须紧挨着排在 b 前面，求合法队伍数。</p>
+  </section>
+
+  <section class="hint">
+    <h2>2. 一点点思路提示</h2>
+    <p>如果 a 必须在 b 前面并相邻，可以把 a,b 当成一段固定顺序的小链。所有关系必须拼成若干条互不冲突的链。</p>
+  </section>
+
+  <section>
+    <h2>3. 解题思路</h2>
+    <div class="lesson-panel">
+      <p><span class="micro-title">先读题抓信号</span>要求 a 必须紧挨着排在 b 前面，可以看成有向边 a-&gt;b。每个人最多只能有一个后继和一个前驱，这是把排列约束压成链的题。</p>
+      <p><span class="micro-title">为什么不能暴力</span>直接枚举 n 个人的全排列是 n!，n 到 2×10^5，完全不可能。必须先把相邻约束合并成块。</p>
+    </div>
+    <h3>先用几步抓住主线</h3>
+    <ol><li>一个同学最多只能紧跟在一个人前面，也最多只能被一个人紧跟在前面；否则不可能。</li><li>如果这些相邻要求形成了环，比如 1 在 2 前面且 2 又在 1 前面，也不可能排成一条直线。</li><li>剩下的每条链内部顺序已经固定，可以把整条链压成一个大块。</li><li>如果一共有 blocks 个块，这些块之间任意排列，答案就是 blocks!。</li></ol>
+    <h3>一步一步推到正解</h3>
+    <div class="deep-body">
+      <p>一条关系 a-&gt;b 的意思很强：a 后面那个位置必须是 b，中间不能插任何人。</p>
+      <p>如果同一个 a 被要求后面接两个不同的人，就冲突；如果同一个 b 被要求前面有两个不同的人，也冲突。</p>
+      <p>在没有冲突的情况下，这些关系会形成若干条链，比如 1-&gt;3-&gt;5。链内部顺序已经被固定，不能再随便打乱。</p>
+      <p>如果关系形成环，例如 1-&gt;2、2-&gt;1，那么这些人无法排成一条直线，因为每个人都想绕回去，答案是 0。</p>
+      <p>排除冲突和环以后，每条链可以压缩成一个大块，没被关系连住的人也是一个单独块。</p>
+      <p>压缩成块以后，不需要再关心块内部怎么排，因为内部已经唯一确定。真正还可以变化的，只剩下这些块之间的先后顺序。</p>
+      <p>块与块之间没有相邻要求，所以可以任意排列。若有 cnt 个块，答案就是 cnt!。</p>
+    </div>
+    <h3>代码怎么对应这个想法</h3>
+    <ul class="code-guide"><li>用 set 给重复边去重，避免同一条要求被算两次。</li><li>`to[a]` 记录 a 的唯一后继，`indeg[b]` 记录 b 是否已有前驱。</li><li>拓扑排序检查是否有环；如果无法移除所有点，就说明有环。</li><li>合法时块数等于 `n - 唯一边数`，输出对应阶乘。</li></ul>
+    <p><strong>复杂度：</strong>去重和检查 O(n+m log m)，最后 O(n) 预处理阶乘。</p>
+  </section>
+
+  <section>
+    <h2>4. 用测试样例验证解题思路</h2>
+    <p>样例 4 个人中要求 1-3、2-4，两条链变成两个块，两个块可以交换位置，所以答案是 2。</p>
+    <div class="samples">
+      <div>
+        <p class="sample-title">样例 1 输入</p>
+        <pre class="sample-block">4 2
+1 3
+2 4</pre>
+        <p class="sample-title">样例 1 输出</p>
+        <pre class="sample-block">2</pre>
+      </div>
+
+      <div>
+        <p class="sample-title">样例 2 输入</p>
+        <pre class="sample-block">3 0</pre>
+        <p class="sample-title">样例 2 输出</p>
+        <pre class="sample-block">6</pre>
+      </div>
+
+      <div>
+        <p class="sample-title">样例 3 输入</p>
+        <pre class="sample-block">3 2
+1 2
+2 1</pre>
+        <p class="sample-title">样例 3 输出</p>
+        <pre class="sample-block">0</pre>
+      </div></div>
+  </section>
+
+  <section>
+    <h2>容易错的地方</h2>
+    <ul><li>重复给出的同一条关系只算一次。</li><li>一定要检查入度、出度和有向环。</li></ul>
+  </section>
+
+  <section class="code-lock" data-pid="P11380" data-payload="kI72yqHf+UtZ458XeCzmDE9BxKmR00pQk1k7K/qMYrSowkmyM7VpwYGCdIGq8NYwgvKNQry44Z1CR8vgHFmTkBxgtquAFgBhWDwg7LxDQr5tRYeDkgs8ah0QcfncqLSq237Kol/D61l+IsRqMTNHBP1/QMdBxfbMBX78135q4bx+g8hENEcunDb9YDEPrcFgnU/MDqx6DKkasiZBryEfAQlYo4VE/a75THeAIUXor3TY0jTwQ1HduGmthhbV+S9gxZ1HJ50JCHWk87BHVECjDFNKry0/TIT87OJoYj9gXAW9NZkLaLs67+NW+bYxUGjgKGgCFz/XhQrtGufRkiGQ0Q+sqm8WnuxHlum2aMkGyWjVImO1+iIu6GDa8jeSrtwKgjrfA/ozVZUqeKthEP//4/pjFTXE7oWk5syp+6H7rS20qg/IWARQ5WDRUbxx6y+I/qckuuIsq/gadeczgSgFvFpIzlEMJ0ZFtlR9iotVOCwcBnNHLNlp0egNpoJoJJbX0fq6CHKhs9Iu/M0+zrrNRUb4uoiI6XHnlK6rgDTCsy9tdFn/a8bYkOupOojJZpBoc4PTHxw/DZVkQE/kuoy+xYW8wyiMgKZpufUo5GIK/e30rj168RPydhYclZlGEc72EpkFKbzgAuHnyJj1ZH7wpG3EhtIczt0efkw2W0LIluR26xlVNWpwIJN8ydFAcF/lvEpVsUjt1/4F3IiINwZZxonUEusYlZ73njVkidgcqAA437JU/x0EgGNXVa1JSAHZutGHNYyf9bPpVrfVESX7XOOtH90iqK+k06HFSxMnN2ymIqaqXt/T82KZS1sSXm9E3JwFnJAFCh83SYlj1zR2XK6Jm3QZjx+JydJFT1tM0KzdR6ZFZFc2bWNf5ozwN+MR+HIPPVXTSq+TxqtaceAiC/2pqOqZ1zK97H5k824uzL0ExW5O0oO9lrElsZ88WU6RZLI87X1rxbcTxQMpLkssZu3v51rzQRU5VYWhgfwg06iYaUK0UrKQZd4vSHBjV6TejCiryuPmqsdIaeIf5qlCWNBOnGRzjW+4OyM/+iSYqB20P3UBwAhfbNRrCEvOpIqveViCHWAPAINMQIa7X3EfQ8T4UyNDwAS3rS0LayN8jzPtYDIgUMgdsJgk2YHUscZE6tvjWa9hB5XdJI0womTi6x+ZhV98xs3L/JdWtjMU8cWrXYRdNnTP8K8aQ5lSAH7f/zFLNyP2x+eGqzDRj62LpeB5DFEoV8iI3isFxLhVRek0rDs+XDa5evqwWwEaWJEJtPJNNQ1czwIGOPAeL0hSulpuAvybBv6InuZ0zusg3FUHRczRkgy/TACMDLtTKCpqwqtfOSCx768Eg1mJBueIVLdeyAOsIxLVSAJo3GF3XN8I6qtWmaiccVBPWkSpz7SQnxriA2qTNf3kFqnEAtF/FpW1Et5BaDu2pU83Kd2n2u1rk7UeXu7cmYnhRk3/4Nzmoe2zF749iQccnaB9dT6eG0U7B4SkBG9hBMlIFem54YOGDtwosa1yXvhnArveseTbYRkGiPdszYKknnBAEHupQ87LjGI8+c7TvkohpN1vPuPMGfX9nJnb+7iniO66zEJCkdJeSSvomZQyhdk2FZ9JKnwvLlBmd7WhVycYdInr4VQnfugz2DkhS0efr7frMBrOOeo=">
+    <h2>C++ 实现代码</h2>
+    <div class="unlock-panel">
+      <label>本题代码密码
+        <input class="code-password" type="password" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="off" placeholder="6 位数字">
+      </label>
+      <button class="unlock-button" type="button">查看代码</button>
+      <span class="code-status" aria-live="polite"></span>
+    </div>
+    <pre class="code-block locked"><code>代码已锁定。输入本题 6 位密码后显示。</code></pre>
+  </section>
+
+  <section>
+    <h2>校验袋记录</h2>
+    <p>本页生成后会由独立校验脚本抽取 C++17 代码，编译并运行洛谷题面缓存中的样例；同时检查章节、链接、标签和样例块是否齐全。</p>
+  </section>
+
+  <div class="footer-nav">
+    <a class="card" href="11-P11379.html">← 上一题：P11379</a>
+    <a class="card" href="13-P11966.html">下一题：P11966 →</a>
+  </div>
+</main>
+<script>
+(function () {
+  const MASK = (1n << 64n) - 1n;
+  const OFFSET = 14695981039346656037n;
+  const PRIME = 1099511628211n;
+  const STEP = 0x9E3779B97F4A7C15n;
+
+  function seedFromText(text) {
+    let seed = OFFSET;
+    for (let i = 0; i < text.length; i += 1) {
+      seed ^= BigInt(text.charCodeAt(i) & 255);
+      seed = (seed * PRIME) & MASK;
+    }
+    return seed;
+  }
+
+  function splitmix64(state) {
+    state = (state + STEP) & MASK;
+    let z = state;
+    z = ((z ^ (z >> 30n)) * 0xBF58476D1CE4E5B9n) & MASK;
+    z = ((z ^ (z >> 27n)) * 0x94D049BB133111EBn) & MASK;
+    z = (z ^ (z >> 31n)) & MASK;
+    return [state, z];
+  }
+
+  function streamBytes(pid, password, length) {
+    let state = seedFromText(`${password}:${pid}:GESP8`);
+    const out = new Uint8Array(length);
+    let offset = 0;
+    while (offset < length) {
+      let mixed;
+      [state, mixed] = splitmix64(state);
+      for (let i = 0; i < 8 && offset < length; i += 1) {
+        out[offset] = Number((mixed >> BigInt(8 * i)) & 255n);
+        offset += 1;
+      }
+    }
+    return out;
+  }
+
+  function decodePayload(payload, pid, password) {
+    const raw = atob(payload);
+    const cipher = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i += 1) cipher[i] = raw.charCodeAt(i);
+    const stream = streamBytes(pid, password, cipher.length);
+    const plain = new Uint8Array(cipher.length);
+    for (let i = 0; i < cipher.length; i += 1) plain[i] = cipher[i] ^ stream[i];
+    const text = new TextDecoder("utf-8", { fatal: false }).decode(plain);
+    const marker = `// LUOGU558:${pid}\n`;
+    if (!text.startsWith(marker)) throw new Error("bad password");
+    return text.slice(marker.length).replace(/\s+$/, "");
+  }
+
+  document.querySelectorAll(".code-lock").forEach((box) => {
+    const input = box.querySelector(".code-password");
+    const button = box.querySelector(".unlock-button");
+    const status = box.querySelector(".code-status");
+    const code = box.querySelector("code");
+    const pre = box.querySelector("pre");
+    const pid = box.dataset.pid;
+    const payload = box.dataset.payload;
+
+    function unlock() {
+      const password = (input.value || "").trim();
+      if (!/^\d{6}$/.test(password)) {
+        status.textContent = "请输入 6 位数字密码";
+        return;
+      }
+      try {
+        code.textContent = decodePayload(payload, pid, password);
+        pre.classList.remove("locked");
+        status.textContent = "已解锁";
+        input.value = "";
+      } catch (error) {
+        status.textContent = "密码不对";
+      }
+    }
+
+    button.addEventListener("click", unlock);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") unlock();
+    });
+  });
+}());
+</script>
+</body>
+</html>

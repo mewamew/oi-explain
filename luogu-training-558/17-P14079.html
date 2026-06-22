@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P14079 题解 - 洛谷训练 558</title>
+  <style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #202124;
+  --muted: #68635c;
+  --line: #d9d2c4;
+  --accent: #0f766e;
+  --accent-2: #9a3412;
+  --soft: #eef7f4;
+  --code: #18212f;
+  --code-ink: #f7fafc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.72;
+}
+main {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0 24px;
+  margin-bottom: 20px;
+}
+.eyebrow {
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  margin: 0 0 12px;
+  letter-spacing: 0;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 820px;
+  margin: 0;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: #403b35;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffdf8;
+  color: var(--ink);
+}
+.card:hover { text-decoration: none; border-color: var(--accent); }
+.card strong { display: block; margin-bottom: 6px; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+section {
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+h3 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+ol, ul { padding-left: 1.35rem; }
+li + li { margin-top: 6px; }
+.hint {
+  background: var(--soft);
+  border-color: #b7ded5;
+}
+.lesson-panel {
+  border-left: 4px solid var(--accent);
+  background: #f5fbf8;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin: 12px 0 16px;
+}
+.lesson-panel p,
+.deep-body p,
+.code-guide li {
+  margin-top: 0;
+}
+.lesson-panel p:last-child,
+.deep-body p:last-child {
+  margin-bottom: 0;
+}
+.deep-body p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.micro-title {
+  display: inline-block;
+  min-width: 8em;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.sample-block, .code-block {
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--code-ink);
+  padding: 14px;
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.sample-title {
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 6px;
+}
+.code-block {
+  font-size: 12.5px;
+  max-height: none;
+}
+.code-lock .unlock-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  border: 1px solid #c8ddd6;
+  border-radius: 8px;
+  background: #f2faf7;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.code-lock label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.code-lock input {
+  width: 9em;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+.code-lock button {
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 14px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.code-lock button:hover { filter: brightness(0.95); }
+.code-status {
+  min-width: 8em;
+  color: var(--accent-2);
+  font-size: 13px;
+}
+.code-block.locked {
+  color: #cfd8e3;
+}
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+@media (max-width: 640px) {
+  main { width: min(100% - 20px, 1080px); padding-top: 18px; }
+  section { padding: 15px; }
+  .code-lock .unlock-panel { grid-template-columns: 1fr; }
+  .code-lock input { width: 100%; }
+  .footer-nav { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="topbar">
+    <a href="index.html">洛谷训练 558 题解索引</a>
+    <a href="https://www.luogu.com.cn/problem/P14079">打开洛谷题面</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">第 17 题 · P14079</div>
+    <h1>[GESP202509 八级] 最短距离</h1>
+    <p class="subtitle">面向 GESP 八级练习的浅显题解。题面原文以洛谷为准，这里重点讲如何读题、如何一步步想到做法，以及代码怎样落地。</p>
+    <div class="meta"><span class="chip">数论</span><span class="chip">最短路思维</span><span class="chip">gcd</span><span class="chip">分类讨论</span></div>
+  </header>
+
+  <section>
+    <h2>0. 类型标签</h2>
+    <p>数论, 最短路思维, gcd, 分类讨论</p>
+  </section>
+
+  <section>
+    <h2>1. 题意</h2>
+    <p>巨大完全图中，两数互质边权为 p，不互质边权为 q，回答两点最短距离。</p>
+  </section>
+
+  <section class="hint">
+    <h2>2. 一点点思路提示</h2>
+    <p>图虽然有 10^18 个点，但因为是完全图，真正要比较的是直达、一跳中转这几类路线。</p>
+  </section>
+
+  <section>
+    <h2>3. 解题思路</h2>
+    <div class="lesson-panel">
+      <p><span class="micro-title">先读题抓信号</span>图有 10^18 个点且是完全图，说明绝不能建图。边权只由 gcd 是否为 1 决定，所以要分类讨论少数路线。</p>
+      <p><span class="micro-title">为什么不能暴力</span>点数是 10^18，连边数量更是天文数字。任何建图或普通最短路都不可行。</p>
+    </div>
+    <h3>先用几步抓住主线</h3>
+    <ol><li>如果 a=b，距离就是 0。</li><li>直达边很容易判断：gcd(a,b)=1 用 p，否则用 q。</li><li>总能找一个和 a、b 都互质的中转点，所以可以花 2p 走两条互质边。</li><li>如果 a、b 都大于 1，也能找一个同时和二者不互质的中转点，所以还能比较 2q。</li><li>最短答案就是这些可行方案的最小值。</li></ol>
+    <h3>一步一步推到正解</h3>
+    <div class="deep-body">
+      <p>两点 a,b 的直达边一定存在。如果 gcd(a,b)=1，直达花 p；否则花 q。</p>
+      <p>完全图里也可以走中转点。由于编号范围巨大，总能找一个数和 a、b 都互质，于是 `a -&gt; 中转 -&gt; b` 两条边都花 p，总费用 2p。</p>
+      <p>如果 a 和 b 都大于 1，也可以找一个数同时和 a、b 都不互质，比如和它们共享因子构造出来的中转点，于是有 2q 的方案。</p>
+      <p>为什么 a=1 时不能用 2q？因为 1 和任何正整数都互质，连接 1 的边不可能是不互质边。</p>
+      <p>因为边权都是正数，走三条或更多边不会比已经考虑的两条边更有优势：多走一条只会增加正费用。</p>
+      <p>所以答案只需要在直达、2p、可行时的 2q 中取最小。a=b 时距离为 0。</p>
+    </div>
+    <h3>代码怎么对应这个想法</h3>
+    <ul class="code-guide"><li>每个询问先处理 `a==b`。</li><li>用 `std::gcd(a,b)` 判断直达边费用。</li><li>无条件比较 `2*p`。</li><li>只有 `a&gt;1 &amp;&amp; b&gt;1` 时才比较 `2*q`。</li></ul>
+    <p><strong>复杂度：</strong>每个询问只算一次 gcd，O(log max(a,b))。</p>
+  </section>
+
+  <section>
+    <h2>4. 用测试样例验证解题思路</h2>
+    <p>样例二中 4 和 2 不互质，直达花 6；但可以通过一个互质中转点走两条 p 边，费用 4，所以输出 4。</p>
+    <div class="samples">
+      <div>
+        <p class="sample-title">样例 1 输入</p>
+        <pre class="sample-block">4 4 3
+1 2
+2 3
+4 2
+3 5</pre>
+        <p class="sample-title">样例 1 输出</p>
+        <pre class="sample-block">4
+4
+3
+4</pre>
+      </div>
+
+      <div>
+        <p class="sample-title">样例 2 输入</p>
+        <pre class="sample-block">5 2 6
+1 2
+2 3
+4 2
+3 5
+6 6</pre>
+        <p class="sample-title">样例 2 输出</p>
+        <pre class="sample-block">2
+2
+4
+2
+0</pre>
+      </div></div>
+  </section>
+
+  <section>
+    <h2>容易错的地方</h2>
+    <ul><li>编号 1 和任何数都互质，所以如果某端点是 1，就不能构造两条 q 边。</li><li>p、q 到 10^9，答案用 long long。</li></ul>
+  </section>
+
+  <section class="code-lock" data-pid="P14079" data-payload="03i7G5twfjVsnHwTmGQa2QMz0W0zGyy8pm57GxHINPwNDw89n3fyUPQY+8N8ZOv3+pTT/tVhCvFnrtguh5AVSj+34xekqcYirOMzBoAvCJGsXxKMtxqkCuTAc7jgVdaaM4XvAS1PT89/HdTSTrCwdt7A9yDm44Kn44nogvojJQcUBbmqYfNmQqxlW7YAE8fvCSw1WMkRGVQ8FurGb5ANX8eXqA/O4vrk9Q9iRKgBFH615yWQAVNkpseTkNEZmyAjYHpA8GerKuEEZvX2GkruE6suDkW2gwMDx/tQGbgi03dLnvDGON8eeK9lxJfVUKd2LT0a+/IPfRhsWCrKlyYOSUYUESSNDq5wd2z1sV0uzqN7K3VYISjmcYUNVuxl++fDXz7PeuHrJ2BTSnrOJ8aBOI1WiObLcsH8JNUzva9YvZw26wwB/yFSG8bGrxna078ZZBBGmDfV+7Lcp8TKe217otmWMI2hzIAHTNeilbhH+RAwsd3pkpD8jxxOlOKy+G8rfNsFYFRxFei4/FL0g+IAt6yhjv4xd5m/kwRksIIry9POeaCCIQ6g+HJYlOwSYNqWsVtIHpnKjxQQAyXLSdqzFjkLibS3BdPDcreLMnwWwTOvEEF6YX4kGyWXCybo4m7wl0h8wCQFVdqhwk+tKtqvzj3CKRm3vltr3y3HB0MAr9Dv+X/Q3mP+7cmWieEWU1kS">
+    <h2>C++ 实现代码</h2>
+    <div class="unlock-panel">
+      <label>本题代码密码
+        <input class="code-password" type="password" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="off" placeholder="6 位数字">
+      </label>
+      <button class="unlock-button" type="button">查看代码</button>
+      <span class="code-status" aria-live="polite"></span>
+    </div>
+    <pre class="code-block locked"><code>代码已锁定。输入本题 6 位密码后显示。</code></pre>
+  </section>
+
+  <section>
+    <h2>校验袋记录</h2>
+    <p>本页生成后会由独立校验脚本抽取 C++17 代码，编译并运行洛谷题面缓存中的样例；同时检查章节、链接、标签和样例块是否齐全。</p>
+  </section>
+
+  <div class="footer-nav">
+    <a class="card" href="16-P13020.html">← 上一题：P13020</a>
+    <a class="card" href="18-P14080.html">下一题：P14080 →</a>
+  </div>
+</main>
+<script>
+(function () {
+  const MASK = (1n << 64n) - 1n;
+  const OFFSET = 14695981039346656037n;
+  const PRIME = 1099511628211n;
+  const STEP = 0x9E3779B97F4A7C15n;
+
+  function seedFromText(text) {
+    let seed = OFFSET;
+    for (let i = 0; i < text.length; i += 1) {
+      seed ^= BigInt(text.charCodeAt(i) & 255);
+      seed = (seed * PRIME) & MASK;
+    }
+    return seed;
+  }
+
+  function splitmix64(state) {
+    state = (state + STEP) & MASK;
+    let z = state;
+    z = ((z ^ (z >> 30n)) * 0xBF58476D1CE4E5B9n) & MASK;
+    z = ((z ^ (z >> 27n)) * 0x94D049BB133111EBn) & MASK;
+    z = (z ^ (z >> 31n)) & MASK;
+    return [state, z];
+  }
+
+  function streamBytes(pid, password, length) {
+    let state = seedFromText(`${password}:${pid}:GESP8`);
+    const out = new Uint8Array(length);
+    let offset = 0;
+    while (offset < length) {
+      let mixed;
+      [state, mixed] = splitmix64(state);
+      for (let i = 0; i < 8 && offset < length; i += 1) {
+        out[offset] = Number((mixed >> BigInt(8 * i)) & 255n);
+        offset += 1;
+      }
+    }
+    return out;
+  }
+
+  function decodePayload(payload, pid, password) {
+    const raw = atob(payload);
+    const cipher = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i += 1) cipher[i] = raw.charCodeAt(i);
+    const stream = streamBytes(pid, password, cipher.length);
+    const plain = new Uint8Array(cipher.length);
+    for (let i = 0; i < cipher.length; i += 1) plain[i] = cipher[i] ^ stream[i];
+    const text = new TextDecoder("utf-8", { fatal: false }).decode(plain);
+    const marker = `// LUOGU558:${pid}\n`;
+    if (!text.startsWith(marker)) throw new Error("bad password");
+    return text.slice(marker.length).replace(/\s+$/, "");
+  }
+
+  document.querySelectorAll(".code-lock").forEach((box) => {
+    const input = box.querySelector(".code-password");
+    const button = box.querySelector(".unlock-button");
+    const status = box.querySelector(".code-status");
+    const code = box.querySelector("code");
+    const pre = box.querySelector("pre");
+    const pid = box.dataset.pid;
+    const payload = box.dataset.payload;
+
+    function unlock() {
+      const password = (input.value || "").trim();
+      if (!/^\d{6}$/.test(password)) {
+        status.textContent = "请输入 6 位数字密码";
+        return;
+      }
+      try {
+        code.textContent = decodePayload(payload, pid, password);
+        pre.classList.remove("locked");
+        status.textContent = "已解锁";
+        input.value = "";
+      } catch (error) {
+        status.textContent = "密码不对";
+      }
+    }
+
+    button.addEventListener("click", unlock);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") unlock();
+    });
+  });
+}());
+</script>
+</body>
+</html>

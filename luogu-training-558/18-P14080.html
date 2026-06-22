@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P14080 题解 - 洛谷训练 558</title>
+  <style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #202124;
+  --muted: #68635c;
+  --line: #d9d2c4;
+  --accent: #0f766e;
+  --accent-2: #9a3412;
+  --soft: #eef7f4;
+  --code: #18212f;
+  --code-ink: #f7fafc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.72;
+}
+main {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0 24px;
+  margin-bottom: 20px;
+}
+.eyebrow {
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  margin: 0 0 12px;
+  letter-spacing: 0;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 820px;
+  margin: 0;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: #403b35;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffdf8;
+  color: var(--ink);
+}
+.card:hover { text-decoration: none; border-color: var(--accent); }
+.card strong { display: block; margin-bottom: 6px; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+section {
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+h3 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+ol, ul { padding-left: 1.35rem; }
+li + li { margin-top: 6px; }
+.hint {
+  background: var(--soft);
+  border-color: #b7ded5;
+}
+.lesson-panel {
+  border-left: 4px solid var(--accent);
+  background: #f5fbf8;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin: 12px 0 16px;
+}
+.lesson-panel p,
+.deep-body p,
+.code-guide li {
+  margin-top: 0;
+}
+.lesson-panel p:last-child,
+.deep-body p:last-child {
+  margin-bottom: 0;
+}
+.deep-body p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.micro-title {
+  display: inline-block;
+  min-width: 8em;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.sample-block, .code-block {
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--code-ink);
+  padding: 14px;
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.sample-title {
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 6px;
+}
+.code-block {
+  font-size: 12.5px;
+  max-height: none;
+}
+.code-lock .unlock-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  border: 1px solid #c8ddd6;
+  border-radius: 8px;
+  background: #f2faf7;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.code-lock label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.code-lock input {
+  width: 9em;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+.code-lock button {
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 14px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.code-lock button:hover { filter: brightness(0.95); }
+.code-status {
+  min-width: 8em;
+  color: var(--accent-2);
+  font-size: 13px;
+}
+.code-block.locked {
+  color: #cfd8e3;
+}
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+@media (max-width: 640px) {
+  main { width: min(100% - 20px, 1080px); padding-top: 18px; }
+  section { padding: 15px; }
+  .code-lock .unlock-panel { grid-template-columns: 1fr; }
+  .code-lock input { width: 100%; }
+  .footer-nav { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="topbar">
+    <a href="index.html">洛谷训练 558 题解索引</a>
+    <a href="https://www.luogu.com.cn/problem/P14080">打开洛谷题面</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">第 18 题 · P14080</div>
+    <h1>[GESP202509 八级] 最小生成树</h1>
+    <p class="subtitle">面向 GESP 八级练习的浅显题解。题面原文以洛谷为准，这里重点讲如何读题、如何一步步想到做法，以及代码怎样落地。</p>
+    <div class="meta"><span class="chip">最小生成树</span><span class="chip">Kruskal</span><span class="chip">LCA</span><span class="chip">并查集</span></div>
+  </header>
+
+  <section>
+    <h2>0. 类型标签</h2>
+    <p>最小生成树, Kruskal, LCA, 并查集</p>
+  </section>
+
+  <section>
+    <h2>1. 题意</h2>
+    <p>对每条边，问删掉它以后图的最小生成树权值；如果图不连通就输出 -1。</p>
+  </section>
+
+  <section class="hint">
+    <h2>2. 一点点思路提示</h2>
+    <p>先求出一棵最小生成树。删掉非树边没影响；删掉树边时，只需要找能替代它的最便宜非树边。</p>
+  </section>
+
+  <section>
+    <h2>3. 解题思路</h2>
+    <div class="lesson-panel">
+      <p><span class="micro-title">先读题抓信号</span>每次删除一条边后求 MST。如果边不在某棵 MST 中，删除它不会影响这棵 MST；如果在 MST 中，就要找替换边。这是最小生成树替换边问题。</p>
+      <p><span class="micro-title">为什么不能暴力</span>对 m 条边每条都重新跑 Kruskal，是 O(m^2 log m)，m 到 10^5 不可行。</p>
+    </div>
+    <h3>先用几步抓住主线</h3>
+    <ol><li>用 Kruskal 求一棵 MST，并记录哪些边被选中。</li><li>非树边删掉以后，原来的 MST 还在，所以答案就是 MST 总权值。</li><li>如果删掉一条树边，MST 会被切成两块；任何一条连接这两块的非树边都可以作为替代。</li><li>一条非树边 (u,v,w) 能替代 MST 上 u 到 v 路径中的任意一条树边。把非树边按权值从小到大处理，第一次覆盖到某条树边的权值就是它的最优替代。</li><li>用 LCA 找路径，再用一个“跳过已处理节点”的并查集把路径更新加速。</li></ol>
+    <h3>一步一步推到正解</h3>
+    <div class="deep-body">
+      <p>先用 Kruskal 求出原图的一棵最小生成树，记总权值为 S。Kruskal 会优先选小边，并保证最终连通且权值和最小。</p>
+      <p>如果删除的是一条非树边，原来的 MST 仍然完整存在，所以删除后最小生成树权值不会变，答案就是 S。</p>
+      <p>如果删除的是一条树边，MST 会被切成两块。要重新连成树，必须找一条原来没在 MST 里的边，连接这两块。</p>
+      <p>一条非树边 (u,v,w) 加到 MST 上，会和 u 到 v 的树上路径形成一个环。这个环上的任意一条树边被删除时，都可以用这条非树边替代。</p>
+      <p>因此我们把所有非树边按权值从小到大处理。它第一次给某条树边提供替代时，一定就是这条树边能得到的最便宜替代。</p>
+      <p>为了不在树上路径上一条条慢慢更新，用一个“跳过已经处理节点”的并查集。某条树边已经找到最优替代后，以后更大的非树边就不用再管它。</p>
+      <p>最后，对每条树边，如果没有替代边，删除它会让图不连通，输出 -1；否则输出 `S - 原边权 + 替代边权`。</p>
+    </div>
+    <h3>代码怎么对应这个想法</h3>
+    <ul class="code-guide"><li>`inMST[id]` 标记边是否进入 Kruskal 得到的 MST。</li><li>MST 建树后，用 LCA 找非树边两端在树上的路径。</li><li>`replacement[id]` 保存某条树边的最小替代边权。</li><li>`skip` 并查集把已经有替代答案的节点跳到父亲，保证路径更新总量接近线性。</li></ul>
+    <p><strong>复杂度：</strong>Kruskal O(m log m)，路径替代总更新近似 O((n+m) log n)。</p>
+  </section>
+
+  <section>
+    <h2>4. 用测试样例验证解题思路</h2>
+    <p>样例一中删掉第 3 或第 4 条边会让原 MST 的关键连接断开，且没有替代边，所以输出 -1；删掉非树边第 5 条时 MST 不变，输出 10。</p>
+    <div class="samples">
+      <div>
+        <p class="sample-title">样例 1 输入</p>
+        <pre class="sample-block">5 5
+1 2 4
+2 3 3
+3 4 1
+2 5 2
+3 1 8</pre>
+        <p class="sample-title">样例 1 输出</p>
+        <pre class="sample-block">14
+15
+-1
+-1
+10</pre>
+      </div>
+
+      <div>
+        <p class="sample-title">样例 2 输入</p>
+        <pre class="sample-block">6 10
+1 2 6
+2 3 3
+3 1 4
+3 4 5
+4 5 8
+5 6 2
+6 4 1
+3 2 4
+5 4 4
+3 3 6</pre>
+        <p class="sample-title">样例 2 输出</p>
+        <pre class="sample-block">15
+16
+17
+-1
+15
+17
+18
+15
+15
+15</pre>
+      </div></div>
+  </section>
+
+  <section>
+    <h2>容易错的地方</h2>
+    <ul><li>有重边和自环，自环不能替代任何树边。</li><li>替代边可以和原树边同权，不要求严格变大。</li></ul>
+  </section>
+
+  <section class="code-lock" data-pid="P14080" data-payload="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">
+    <h2>C++ 实现代码</h2>
+    <div class="unlock-panel">
+      <label>本题代码密码
+        <input class="code-password" type="password" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="off" placeholder="6 位数字">
+      </label>
+      <button class="unlock-button" type="button">查看代码</button>
+      <span class="code-status" aria-live="polite"></span>
+    </div>
+    <pre class="code-block locked"><code>代码已锁定。输入本题 6 位密码后显示。</code></pre>
+  </section>
+
+  <section>
+    <h2>校验袋记录</h2>
+    <p>本页生成后会由独立校验脚本抽取 C++17 代码，编译并运行洛谷题面缓存中的样例；同时检查章节、链接、标签和样例块是否齐全。</p>
+  </section>
+
+  <div class="footer-nav">
+    <a class="card" href="17-P14079.html">← 上一题：P14079</a>
+    <a class="card" href="19-P14923.html">下一题：P14923 →</a>
+  </div>
+</main>
+<script>
+(function () {
+  const MASK = (1n << 64n) - 1n;
+  const OFFSET = 14695981039346656037n;
+  const PRIME = 1099511628211n;
+  const STEP = 0x9E3779B97F4A7C15n;
+
+  function seedFromText(text) {
+    let seed = OFFSET;
+    for (let i = 0; i < text.length; i += 1) {
+      seed ^= BigInt(text.charCodeAt(i) & 255);
+      seed = (seed * PRIME) & MASK;
+    }
+    return seed;
+  }
+
+  function splitmix64(state) {
+    state = (state + STEP) & MASK;
+    let z = state;
+    z = ((z ^ (z >> 30n)) * 0xBF58476D1CE4E5B9n) & MASK;
+    z = ((z ^ (z >> 27n)) * 0x94D049BB133111EBn) & MASK;
+    z = (z ^ (z >> 31n)) & MASK;
+    return [state, z];
+  }
+
+  function streamBytes(pid, password, length) {
+    let state = seedFromText(`${password}:${pid}:GESP8`);
+    const out = new Uint8Array(length);
+    let offset = 0;
+    while (offset < length) {
+      let mixed;
+      [state, mixed] = splitmix64(state);
+      for (let i = 0; i < 8 && offset < length; i += 1) {
+        out[offset] = Number((mixed >> BigInt(8 * i)) & 255n);
+        offset += 1;
+      }
+    }
+    return out;
+  }
+
+  function decodePayload(payload, pid, password) {
+    const raw = atob(payload);
+    const cipher = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i += 1) cipher[i] = raw.charCodeAt(i);
+    const stream = streamBytes(pid, password, cipher.length);
+    const plain = new Uint8Array(cipher.length);
+    for (let i = 0; i < cipher.length; i += 1) plain[i] = cipher[i] ^ stream[i];
+    const text = new TextDecoder("utf-8", { fatal: false }).decode(plain);
+    const marker = `// LUOGU558:${pid}\n`;
+    if (!text.startsWith(marker)) throw new Error("bad password");
+    return text.slice(marker.length).replace(/\s+$/, "");
+  }
+
+  document.querySelectorAll(".code-lock").forEach((box) => {
+    const input = box.querySelector(".code-password");
+    const button = box.querySelector(".unlock-button");
+    const status = box.querySelector(".code-status");
+    const code = box.querySelector("code");
+    const pre = box.querySelector("pre");
+    const pid = box.dataset.pid;
+    const payload = box.dataset.payload;
+
+    function unlock() {
+      const password = (input.value || "").trim();
+      if (!/^\d{6}$/.test(password)) {
+        status.textContent = "请输入 6 位数字密码";
+        return;
+      }
+      try {
+        code.textContent = decodePayload(payload, pid, password);
+        pre.classList.remove("locked");
+        status.textContent = "已解锁";
+        input.value = "";
+      } catch (error) {
+        status.textContent = "密码不对";
+      }
+    }
+
+    button.addEventListener("click", unlock);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") unlock();
+    });
+  });
+}());
+</script>
+</body>
+</html>

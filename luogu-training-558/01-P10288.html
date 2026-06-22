@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P10288 题解 - 洛谷训练 558</title>
+  <style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #202124;
+  --muted: #68635c;
+  --line: #d9d2c4;
+  --accent: #0f766e;
+  --accent-2: #9a3412;
+  --soft: #eef7f4;
+  --code: #18212f;
+  --code-ink: #f7fafc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.72;
+}
+main {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0 24px;
+  margin-bottom: 20px;
+}
+.eyebrow {
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  margin: 0 0 12px;
+  letter-spacing: 0;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 820px;
+  margin: 0;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: #403b35;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffdf8;
+  color: var(--ink);
+}
+.card:hover { text-decoration: none; border-color: var(--accent); }
+.card strong { display: block; margin-bottom: 6px; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+section {
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+h3 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+ol, ul { padding-left: 1.35rem; }
+li + li { margin-top: 6px; }
+.hint {
+  background: var(--soft);
+  border-color: #b7ded5;
+}
+.lesson-panel {
+  border-left: 4px solid var(--accent);
+  background: #f5fbf8;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin: 12px 0 16px;
+}
+.lesson-panel p,
+.deep-body p,
+.code-guide li {
+  margin-top: 0;
+}
+.lesson-panel p:last-child,
+.deep-body p:last-child {
+  margin-bottom: 0;
+}
+.deep-body p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.micro-title {
+  display: inline-block;
+  min-width: 8em;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.sample-block, .code-block {
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--code-ink);
+  padding: 14px;
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.sample-title {
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 6px;
+}
+.code-block {
+  font-size: 12.5px;
+  max-height: none;
+}
+.code-lock .unlock-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  border: 1px solid #c8ddd6;
+  border-radius: 8px;
+  background: #f2faf7;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.code-lock label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.code-lock input {
+  width: 9em;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+.code-lock button {
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 14px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.code-lock button:hover { filter: brightness(0.95); }
+.code-status {
+  min-width: 8em;
+  color: var(--accent-2);
+  font-size: 13px;
+}
+.code-block.locked {
+  color: #cfd8e3;
+}
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+@media (max-width: 640px) {
+  main { width: min(100% - 20px, 1080px); padding-top: 18px; }
+  section { padding: 15px; }
+  .code-lock .unlock-panel { grid-template-columns: 1fr; }
+  .code-lock input { width: 100%; }
+  .footer-nav { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="topbar">
+    <a href="index.html">洛谷训练 558 题解索引</a>
+    <a href="https://www.luogu.com.cn/problem/P10288">打开洛谷题面</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">第 01 题 · P10288</div>
+    <h1>[GESP样题 八级] 区间</h1>
+    <p class="subtitle">面向 GESP 八级练习的浅显题解。题面原文以洛谷为准，这里重点讲如何读题、如何一步步想到做法，以及代码怎样落地。</p>
+    <div class="meta"><span class="chip">区间查询</span><span class="chip">二分</span><span class="chip">哈希表</span><span class="chip">离线预处理</span></div>
+  </header>
+
+  <section>
+    <h2>0. 类型标签</h2>
+    <p>区间查询, 二分, 哈希表, 离线预处理</p>
+  </section>
+
+  <section>
+    <h2>1. 题意</h2>
+    <p>给一个序列，多次询问某个数在一段下标区间里出现了几次。</p>
+  </section>
+
+  <section class="hint">
+    <h2>2. 一点点思路提示</h2>
+    <p>如果每次都扫一遍区间，最坏会扫很多很多次。反过来想：每个数出现在哪些位置，是可以提前记下来的。</p>
+  </section>
+
+  <section>
+    <h2>3. 解题思路</h2>
+    <div class="lesson-panel">
+      <p><span class="micro-title">先读题抓信号</span>题面反复出现“多次询问”“区间 [l,r]”“某个数 x 出现次数”，这就是典型的区间统计题。看到 n、q 都到 10^5，就要先想：每个询问不能重新扫区间。</p>
+      <p><span class="micro-title">为什么不能暴力</span>最直接的做法是每次从 l 扫到 r，遇到 x 就计数。一次询问最坏扫 10^5 个数，q 次就是 10^10 级别，肯定来不及。</p>
+    </div>
+    <h3>先用几步抓住主线</h3>
+    <ol><li>先把同一个数出现的位置放进同一个数组里。因为我们从左到右读入，所以这些位置天然是从小到大排好的。</li><li>询问 l, r, x 时，只需要去 x 的位置数组里找：第一个不小于 l 的位置在哪里，第一个大于 r 的位置在哪里。</li><li>这两个位置之间夹着的数量，就是 x 在 [l, r] 里的出现次数。</li><li>查找“第一个不小于”和“第一个大于”用二分完成，所以一次询问只需要很少的时间。</li></ol>
+    <h3>一步一步推到正解</h3>
+    <div class="deep-body">
+      <p>这道题真正要回答的是：在一段下标范围内，有多少个位置的值等于 x。我们先不要盯着区间本身，而是盯着 x 这个数出现过的位置。</p>
+      <p>比如数组里 1 出现在第 4 位和第 5 位，那么以后不管问哪个区间里的 1，都只需要看 4、5 这两个位置有没有落进区间。其他值的位置和这次询问没有关系。</p>
+      <p>所以读入数组时，可以把相同的数分到同一个“位置袋子”里。因为读入顺序是从左到右，袋子里的下标自然就是递增的。</p>
+      <p>有了有序下标以后，问题就变成：在一个有序数组里，有几个数落在 [l,r]。这正是二分查找擅长的事。</p>
+      <p>lower_bound 找到第一个大于等于 l 的位置，upper_bound 找到第一个大于 r 的位置。两个指针之间夹着多少个下标，答案就是多少。</p>
+      <p>如果 x 从来没出现过，位置袋子不存在，直接输出 0。这个分支很重要，不然会误创建空数组或者访问不存在的数据。</p>
+    </div>
+    <h3>代码怎么对应这个想法</h3>
+    <ul class="code-guide"><li>`unordered_map&lt;long long, vector&lt;int&gt;&gt; pos` 用来保存“数值 -&gt; 出现位置列表”。</li><li>读入第 i 个数 x 时执行 `pos[x].push_back(i)`，这里用 1 开始的下标，和题面一致。</li><li>回答询问时先 `find(x)`，没有这个数就输出 0；有的话再在对应 vector 里二分。</li><li>`upper_bound - lower_bound` 得到的是迭代器距离，正好就是区间内出现次数。</li></ul>
+    <p><strong>复杂度：</strong>设序列长度为 n、询问数为 q，预处理 O(n)，每次询问 O(log n)。</p>
+  </section>
+
+  <section>
+    <h2>4. 用测试样例验证解题思路</h2>
+    <p>样例第一组里，数 1 出现在第 4、5 位，所以问 [1,5] 里的 1，二分能圈出两个位置，答案是 2；问 [1,2] 里的 3，没有位置落在区间内，答案是 0。</p>
+    <div class="samples">
+      <div>
+        <p class="sample-title">样例 1 输入</p>
+        <pre class="sample-block">2
+5
+7 4 6 1 1
+2
+1 2 3
+1 5 1
+5
+1 2 3 4 5
+2
+5 5 3
+1 4 3</pre>
+        <p class="sample-title">样例 1 输出</p>
+        <pre class="sample-block">0
+2
+0
+1</pre>
+      </div></div>
+  </section>
+
+  <section>
+    <h2>容易错的地方</h2>
+    <ul><li>数值可以到 10^9，不能直接开按数值下标的数组。</li><li>有多组数据，每组数据的表要重新建立。</li></ul>
+  </section>
+
+  <section class="code-lock" data-pid="P10288" data-payload="sYSCrYMrfaBKN6YF4xsqcrc6cRTUJWDyZwVV/fjbRRHfi6iH9KwgpadicfCtvII5W1ipM85QtceQcC1DR6L5xLILYgBtTcr3b7eP+9JyYeJIHSRkQG/kpd+Rlo2tidN6SrGJxSzJNL/zYi1cpoNANJ46nRkj5BfjQDqx0k8pso9qweDjQrkuJOYBH3ybo0UEjFX1KmEXIpY8yDrQRXXoa8D1uwRLNSpcI6b4IRRZSf7PzEwwA45LLU7/1kegDs75J5C77bzZRO4ashxNSOlIQHcfYkYusg0p4Uryl0YDxrckr6V7osgnSMarPX0R6ZxrfDfebQ/P/PMxFBuItQehst3vMYFJyJicbIMVUc0P9S+eoG+utsRr7+cHBaNuNPMRm8kDLRl5XsFgje6hq1+TOf/PtVHe6qURCWqoFQVbB6AF1Gon28ZpToAUrxuhYI5evkRGElWrIk3xCarQtlJZ/CmGJ9b8JOa7IKYMQhFhSdJL+oaQ4w5d1Io8JyBeClzaNjG+xyDTfLVIlS2KzzpJVpEGGSTsayhk/sRHCRq9tKx+2nex/cUVPi7OALAm9bzZN7rs0//jQN9cAknzMcIQe83Vd87yPvwpV2rTJXDA2nQlBADLq6uWvYJYjSKqkMZUlrbt3GPKUyCKW6YjLq6hvPylHXnHAY3jeJ1vc1DXDFzC6JLx3aUhUKfzfU1gLVMPocmNMVW+KuGz48+NLnI4+v8hjqYdZAatpEQ1akVA8MYH6Co0C5WWQoFzFI24lRyVIBCYeGwJuysMR9i75iHUrLGU6u6G392G8Vcjg+YAmwT8KrX0EwJAoVKzR+8jDbkOODPrdPI2au4x6fsNm9yfeSCGqfJr4gR3aUWxX6KgJs85o4OygHIRIdxZfsctyK/vEu3BQBhKEyyz1RUoWDCfVYPrN2hG0C1B7C7rTFhpa0PX9e5updYTdnjQWLEkapxrSheCroyHuCkuQdiHxIqJwu+ausgSNKRzOm/RXMJcyH3J85uIKPoX279qMVvyy7Chqv9dvGZFky+UsVPkhxTDAaJKyaEg1IBnCg6Hqw/DFZ/sgKrA1pPQJa7QqANVmqoVBCwx066FG5y8xoh4wueb1wjVn14c/cVKThJj2rlDt8yPGpe3Eh3GtISQGCaWNTsFD74VIUqMA7bksBer1xj5gONthmwP6JIs4jIFz5TQtGDccQAYF0+Xze0mO1BPeFCc4jKU3wGVTGBuTgWE/6LrJWiUP4Ow4JC9kYz4omJtIrg=">
+    <h2>C++ 实现代码</h2>
+    <div class="unlock-panel">
+      <label>本题代码密码
+        <input class="code-password" type="password" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="off" placeholder="6 位数字">
+      </label>
+      <button class="unlock-button" type="button">查看代码</button>
+      <span class="code-status" aria-live="polite"></span>
+    </div>
+    <pre class="code-block locked"><code>代码已锁定。输入本题 6 位密码后显示。</code></pre>
+  </section>
+
+  <section>
+    <h2>校验袋记录</h2>
+    <p>本页生成后会由独立校验脚本抽取 C++17 代码，编译并运行洛谷题面缓存中的样例；同时检查章节、链接、标签和样例块是否齐全。</p>
+  </section>
+
+  <div class="footer-nav">
+    <span></span>
+    <a class="card" href="02-P10289.html">下一题：P10289 →</a>
+  </div>
+</main>
+<script>
+(function () {
+  const MASK = (1n << 64n) - 1n;
+  const OFFSET = 14695981039346656037n;
+  const PRIME = 1099511628211n;
+  const STEP = 0x9E3779B97F4A7C15n;
+
+  function seedFromText(text) {
+    let seed = OFFSET;
+    for (let i = 0; i < text.length; i += 1) {
+      seed ^= BigInt(text.charCodeAt(i) & 255);
+      seed = (seed * PRIME) & MASK;
+    }
+    return seed;
+  }
+
+  function splitmix64(state) {
+    state = (state + STEP) & MASK;
+    let z = state;
+    z = ((z ^ (z >> 30n)) * 0xBF58476D1CE4E5B9n) & MASK;
+    z = ((z ^ (z >> 27n)) * 0x94D049BB133111EBn) & MASK;
+    z = (z ^ (z >> 31n)) & MASK;
+    return [state, z];
+  }
+
+  function streamBytes(pid, password, length) {
+    let state = seedFromText(`${password}:${pid}:GESP8`);
+    const out = new Uint8Array(length);
+    let offset = 0;
+    while (offset < length) {
+      let mixed;
+      [state, mixed] = splitmix64(state);
+      for (let i = 0; i < 8 && offset < length; i += 1) {
+        out[offset] = Number((mixed >> BigInt(8 * i)) & 255n);
+        offset += 1;
+      }
+    }
+    return out;
+  }
+
+  function decodePayload(payload, pid, password) {
+    const raw = atob(payload);
+    const cipher = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i += 1) cipher[i] = raw.charCodeAt(i);
+    const stream = streamBytes(pid, password, cipher.length);
+    const plain = new Uint8Array(cipher.length);
+    for (let i = 0; i < cipher.length; i += 1) plain[i] = cipher[i] ^ stream[i];
+    const text = new TextDecoder("utf-8", { fatal: false }).decode(plain);
+    const marker = `// LUOGU558:${pid}\n`;
+    if (!text.startsWith(marker)) throw new Error("bad password");
+    return text.slice(marker.length).replace(/\s+$/, "");
+  }
+
+  document.querySelectorAll(".code-lock").forEach((box) => {
+    const input = box.querySelector(".code-password");
+    const button = box.querySelector(".unlock-button");
+    const status = box.querySelector(".code-status");
+    const code = box.querySelector("code");
+    const pre = box.querySelector("pre");
+    const pid = box.dataset.pid;
+    const payload = box.dataset.payload;
+
+    function unlock() {
+      const password = (input.value || "").trim();
+      if (!/^\d{6}$/.test(password)) {
+        status.textContent = "请输入 6 位数字密码";
+        return;
+      }
+      try {
+        code.textContent = decodePayload(payload, pid, password);
+        pre.classList.remove("locked");
+        status.textContent = "已解锁";
+        input.value = "";
+      } catch (error) {
+        status.textContent = "密码不对";
+      }
+    }
+
+    button.addEventListener("click", unlock);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") unlock();
+    });
+  });
+}());
+</script>
+</body>
+</html>

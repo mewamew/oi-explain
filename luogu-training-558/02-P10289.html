@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P10289 题解 - 洛谷训练 558</title>
+  <style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #202124;
+  --muted: #68635c;
+  --line: #d9d2c4;
+  --accent: #0f766e;
+  --accent-2: #9a3412;
+  --soft: #eef7f4;
+  --code: #18212f;
+  --code-ink: #f7fafc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.72;
+}
+main {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0 24px;
+  margin-bottom: 20px;
+}
+.eyebrow {
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  margin: 0 0 12px;
+  letter-spacing: 0;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 820px;
+  margin: 0;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: #403b35;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffdf8;
+  color: var(--ink);
+}
+.card:hover { text-decoration: none; border-color: var(--accent); }
+.card strong { display: block; margin-bottom: 6px; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+section {
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+h3 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+ol, ul { padding-left: 1.35rem; }
+li + li { margin-top: 6px; }
+.hint {
+  background: var(--soft);
+  border-color: #b7ded5;
+}
+.lesson-panel {
+  border-left: 4px solid var(--accent);
+  background: #f5fbf8;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin: 12px 0 16px;
+}
+.lesson-panel p,
+.deep-body p,
+.code-guide li {
+  margin-top: 0;
+}
+.lesson-panel p:last-child,
+.deep-body p:last-child {
+  margin-bottom: 0;
+}
+.deep-body p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.micro-title {
+  display: inline-block;
+  min-width: 8em;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.sample-block, .code-block {
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--code-ink);
+  padding: 14px;
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.sample-title {
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 6px;
+}
+.code-block {
+  font-size: 12.5px;
+  max-height: none;
+}
+.code-lock .unlock-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  border: 1px solid #c8ddd6;
+  border-radius: 8px;
+  background: #f2faf7;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.code-lock label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.code-lock input {
+  width: 9em;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+.code-lock button {
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 14px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.code-lock button:hover { filter: brightness(0.95); }
+.code-status {
+  min-width: 8em;
+  color: var(--accent-2);
+  font-size: 13px;
+}
+.code-block.locked {
+  color: #cfd8e3;
+}
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+@media (max-width: 640px) {
+  main { width: min(100% - 20px, 1080px); padding-top: 18px; }
+  section { padding: 15px; }
+  .code-lock .unlock-panel { grid-template-columns: 1fr; }
+  .code-lock input { width: 100%; }
+  .footer-nav { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="topbar">
+    <a href="index.html">洛谷训练 558 题解索引</a>
+    <a href="https://www.luogu.com.cn/problem/P10289">打开洛谷题面</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">第 02 题 · P10289</div>
+    <h1>[GESP样题 八级] 小杨的旅游</h1>
+    <p class="subtitle">面向 GESP 八级练习的浅显题解。题面原文以洛谷为准，这里重点讲如何读题、如何一步步想到做法，以及代码怎样落地。</p>
+    <div class="meta"><span class="chip">树</span><span class="chip">LCA</span><span class="chip">多源 BFS</span><span class="chip">最短路</span></div>
+  </header>
+
+  <section>
+    <h2>0. 类型标签</h2>
+    <p>树, LCA, 多源 BFS, 最短路</p>
+  </section>
+
+  <section>
+    <h2>1. 题意</h2>
+    <p>一棵树上有若干传送门，传送门之间互相瞬移为 0，回答两点间最短时间。</p>
+  </section>
+
+  <section class="hint">
+    <h2>2. 一点点思路提示</h2>
+    <p>一条最短路线只有两种可能：完全沿树走，或者先走到某个传送门，瞬移，再从某个传送门走到终点。</p>
+  </section>
+
+  <section>
+    <h2>3. 解题思路</h2>
+    <div class="lesson-panel">
+      <p><span class="micro-title">先读题抓信号</span>题面是一棵树，并且有大量两点最短路询问，还额外给了“传送门之间 0 费用”。树上距离要想到 LCA；多个传送门到所有点的最近距离要想到多源 BFS。</p>
+      <p><span class="micro-title">为什么不能暴力</span>如果每次询问都从 u 搜到 v，一次就是 O(n)，q 到 2×10^5 会超时。若把每对传送门都连起来再跑最短路，也会因为传送门很多而不可行。</p>
+    </div>
+    <h3>先用几步抓住主线</h3>
+    <ol><li>如果不用传送门，树上两点距离可以用 LCA 快速求出来。</li><li>如果使用传送门，从 u 到最近传送门要多少步、从 v 到最近传送门要多少步，这两个数加起来就是走传送路线的代价，中间传送不花时间。</li><li>最近传送门距离可以把所有传送门一起放进队列，在树上做一次多源 BFS。</li><li>每个询问取两种方案的较小值：树上直接距离，和两端各自到最近传送门的距离之和。</li></ol>
+    <h3>一步一步推到正解</h3>
+    <div class="deep-body">
+      <p>先把路线分成两类：第一类完全不使用传送门，那就是普通树上距离。树上两点之间只有一条简单路径，所以距离可以通过深度和 LCA 快速算出。</p>
+      <p>第二类使用传送门。只要你走到任意一个传送门，就能 0 费用传到另一个传送门。因此中间传送门怎么选不重要，重要的是 u 离最近传送门多远，v 离最近传送门多远。</p>
+      <p>这时传送方案的费用就是 near[u] + near[v]。near[x] 表示从 x 到最近传送门需要走几条树边。</p>
+      <p>near 数组不能对每个点单独求。更好的想法是把所有传送门同时放进队列，距离都设为 0，然后在树上 BFS。这样每个点第一次被扩展到时，就是离最近传送门的距离。</p>
+      <p>最后每个询问只比较两个数：直接走树路的距离 dist(u,v)，以及使用传送门的距离 near[u]+near[v]。</p>
+      <p>如果 k=0，根本没有传送门，near 不存在意义，这时答案只能是普通树上距离。</p>
+    </div>
+    <h3>代码怎么对应这个想法</h3>
+    <ul class="code-guide"><li>倍增表 `up[j][x]` 用来快速把节点往上跳，配合深度求 LCA。</li><li>`tree_dist(u,v)` 通过 `depth[u]+depth[v]-2*depth[lca]` 得到树上距离。</li><li>多源 BFS 时，所有传送门初始距离为 0，一起入队。</li><li>查询时先把普通距离作为答案，再在 `k&gt;0` 时尝试用传送门方案更新。</li></ul>
+    <p><strong>复杂度：</strong>预处理 LCA 和最近传送门距离 O(n log n)，每次询问 O(log n)。</p>
+  </section>
+
+  <section>
+    <h2>4. 用测试样例验证解题思路</h2>
+    <p>样例一中，从 3 到 7 直接走树路要 4 步；通过传送门并不会更短，所以输出 4。</p>
+    <div class="samples">
+      <div>
+        <p class="sample-title">样例 1 输入</p>
+        <pre class="sample-block">7 2 1
+5 7
+3 6
+2 3
+1 5
+5 4
+1 2
+7 4
+3 7</pre>
+        <p class="sample-title">样例 1 输出</p>
+        <pre class="sample-block">4</pre>
+      </div>
+
+      <div>
+        <p class="sample-title">样例 2 输入</p>
+        <pre class="sample-block">5 0 3
+2 3
+5 1
+5 2
+1 4
+4 5
+1 4
+4 3</pre>
+        <p class="sample-title">样例 2 输出</p>
+        <pre class="sample-block">2
+1
+4</pre>
+      </div></div>
+  </section>
+
+  <section>
+    <h2>容易错的地方</h2>
+    <ul><li>k 可能为 0，这时没有传送门，只能输出树上距离。</li><li>n 和 q 都很大，不能每次询问重新搜索。</li></ul>
+  </section>
+
+  <section class="code-lock" data-pid="P10289" data-payload="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">
+    <h2>C++ 实现代码</h2>
+    <div class="unlock-panel">
+      <label>本题代码密码
+        <input class="code-password" type="password" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="off" placeholder="6 位数字">
+      </label>
+      <button class="unlock-button" type="button">查看代码</button>
+      <span class="code-status" aria-live="polite"></span>
+    </div>
+    <pre class="code-block locked"><code>代码已锁定。输入本题 6 位密码后显示。</code></pre>
+  </section>
+
+  <section>
+    <h2>校验袋记录</h2>
+    <p>本页生成后会由独立校验脚本抽取 C++17 代码，编译并运行洛谷题面缓存中的样例；同时检查章节、链接、标签和样例块是否齐全。</p>
+  </section>
+
+  <div class="footer-nav">
+    <a class="card" href="01-P10288.html">← 上一题：P10288</a>
+    <a class="card" href="03-P10112.html">下一题：P10112 →</a>
+  </div>
+</main>
+<script>
+(function () {
+  const MASK = (1n << 64n) - 1n;
+  const OFFSET = 14695981039346656037n;
+  const PRIME = 1099511628211n;
+  const STEP = 0x9E3779B97F4A7C15n;
+
+  function seedFromText(text) {
+    let seed = OFFSET;
+    for (let i = 0; i < text.length; i += 1) {
+      seed ^= BigInt(text.charCodeAt(i) & 255);
+      seed = (seed * PRIME) & MASK;
+    }
+    return seed;
+  }
+
+  function splitmix64(state) {
+    state = (state + STEP) & MASK;
+    let z = state;
+    z = ((z ^ (z >> 30n)) * 0xBF58476D1CE4E5B9n) & MASK;
+    z = ((z ^ (z >> 27n)) * 0x94D049BB133111EBn) & MASK;
+    z = (z ^ (z >> 31n)) & MASK;
+    return [state, z];
+  }
+
+  function streamBytes(pid, password, length) {
+    let state = seedFromText(`${password}:${pid}:GESP8`);
+    const out = new Uint8Array(length);
+    let offset = 0;
+    while (offset < length) {
+      let mixed;
+      [state, mixed] = splitmix64(state);
+      for (let i = 0; i < 8 && offset < length; i += 1) {
+        out[offset] = Number((mixed >> BigInt(8 * i)) & 255n);
+        offset += 1;
+      }
+    }
+    return out;
+  }
+
+  function decodePayload(payload, pid, password) {
+    const raw = atob(payload);
+    const cipher = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i += 1) cipher[i] = raw.charCodeAt(i);
+    const stream = streamBytes(pid, password, cipher.length);
+    const plain = new Uint8Array(cipher.length);
+    for (let i = 0; i < cipher.length; i += 1) plain[i] = cipher[i] ^ stream[i];
+    const text = new TextDecoder("utf-8", { fatal: false }).decode(plain);
+    const marker = `// LUOGU558:${pid}\n`;
+    if (!text.startsWith(marker)) throw new Error("bad password");
+    return text.slice(marker.length).replace(/\s+$/, "");
+  }
+
+  document.querySelectorAll(".code-lock").forEach((box) => {
+    const input = box.querySelector(".code-password");
+    const button = box.querySelector(".unlock-button");
+    const status = box.querySelector(".code-status");
+    const code = box.querySelector("code");
+    const pre = box.querySelector("pre");
+    const pid = box.dataset.pid;
+    const payload = box.dataset.payload;
+
+    function unlock() {
+      const password = (input.value || "").trim();
+      if (!/^\d{6}$/.test(password)) {
+        status.textContent = "请输入 6 位数字密码";
+        return;
+      }
+      try {
+        code.textContent = decodePayload(payload, pid, password);
+        pre.classList.remove("locked");
+        status.textContent = "已解锁";
+        input.value = "";
+      } catch (error) {
+        status.textContent = "密码不对";
+      }
+    }
+
+    button.addEventListener("click", unlock);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") unlock();
+    });
+  });
+}());
+</script>
+</body>
+</html>

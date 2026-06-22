@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>洛谷训练 558 · GESP 八级上机题题解索引</title>
+  <style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #202124;
+  --muted: #68635c;
+  --line: #d9d2c4;
+  --accent: #0f766e;
+  --accent-2: #9a3412;
+  --soft: #eef7f4;
+  --code: #18212f;
+  --code-ink: #f7fafc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.72;
+}
+main {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0 24px;
+  margin-bottom: 20px;
+}
+.eyebrow {
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  margin: 0 0 12px;
+  letter-spacing: 0;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 820px;
+  margin: 0;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: #403b35;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffdf8;
+  color: var(--ink);
+}
+.card:hover { text-decoration: none; border-color: var(--accent); }
+.card strong { display: block; margin-bottom: 6px; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+section {
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+h3 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+ol, ul { padding-left: 1.35rem; }
+li + li { margin-top: 6px; }
+.hint {
+  background: var(--soft);
+  border-color: #b7ded5;
+}
+.lesson-panel {
+  border-left: 4px solid var(--accent);
+  background: #f5fbf8;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin: 12px 0 16px;
+}
+.lesson-panel p,
+.deep-body p,
+.code-guide li {
+  margin-top: 0;
+}
+.lesson-panel p:last-child,
+.deep-body p:last-child {
+  margin-bottom: 0;
+}
+.deep-body p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.micro-title {
+  display: inline-block;
+  min-width: 8em;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.sample-block, .code-block {
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--code-ink);
+  padding: 14px;
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.sample-title {
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 6px;
+}
+.code-block {
+  font-size: 12.5px;
+  max-height: none;
+}
+.code-lock .unlock-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  border: 1px solid #c8ddd6;
+  border-radius: 8px;
+  background: #f2faf7;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.code-lock label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.code-lock input {
+  width: 9em;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+.code-lock button {
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 14px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.code-lock button:hover { filter: brightness(0.95); }
+.code-status {
+  min-width: 8em;
+  color: var(--accent-2);
+  font-size: 13px;
+}
+.code-block.locked {
+  color: #cfd8e3;
+}
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+@media (max-width: 640px) {
+  main { width: min(100% - 20px, 1080px); padding-top: 18px; }
+  section { padding: 15px; }
+  .code-lock .unlock-panel { grid-template-columns: 1fr; }
+  .code-lock input { width: 100%; }
+  .footer-nav { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="topbar">
+    <span>GESP 八级上机题题解</span>
+    <a href="https://www.luogu.com.cn/training/558#problems">洛谷训练 558</a>
+  </nav>
+  <header class="hero">
+    <div class="eyebrow">Luogu Training 558</div>
+    <h1>GESP 八级上机题题解索引</h1>
+    <p class="subtitle">共 22 道题。每题一个独立网页，包含类型标签、题意、思路提示、循序讲解、样例验证和 C++17 实现代码。题面原文请以洛谷页面为准。</p>
+    <div class="meta">
+      <span class="chip">来源：洛谷训练 558</span>
+      <span class="chip">题目数：22</span>
+      <span class="chip">生成日期：2026-06-22</span>
+    </div>
+  </header>
+  <section>
+    <h2>题目列表</h2>
+    <div class="grid">
+      <a class="card" href="01-P10288.html">
+      <strong>01. P10288 · [GESP样题 八级] 区间</strong>
+      <p>给一个序列，多次询问某个数在一段下标区间里出现了几次。</p>
+    </a><a class="card" href="02-P10289.html">
+      <strong>02. P10289 · [GESP样题 八级] 小杨的旅游</strong>
+      <p>一棵树上有若干传送门，传送门之间互相瞬移为 0，回答两点间最短时间。</p>
+    </a><a class="card" href="03-P10112.html">
+      <strong>03. P10112 · [GESP202312 八级] 奖品分配</strong>
+      <p>把若干种奖品分给 N 个有编号的同学，每人一个，奖品可以刚好用完，也可能剩 1 个，求分配方案数。</p>
+    </a><a class="card" href="04-P10113.html">
+      <strong>04. P10113 · [GESP202312 八级] 大量的工作沟通</strong>
+      <p>公司上下级形成一棵树，每次给出一组员工，找能管理所有人的最靠下的共同领导。</p>
+    </a><a class="card" href="05-P10263.html">
+      <strong>05. P10263 · [GESP202403 八级] 公倍数问题</strong>
+      <p>矩阵第 i 行第 j 列可以填 i 和 j 的公倍数，问每个 k 最多能出现在多少个位置里，并求加权和。</p>
+    </a><a class="card" href="06-P10264.html">
+      <strong>06. P10264 · [GESP202403 八级] 接竹竿</strong>
+      <p>给一段牌按规则放入队列，遇到相同点数就删掉中间一整段，问每个区间最后剩几张。</p>
+    </a><a class="card" href="07-P10725.html">
+      <strong>07. P10725 · [GESP202406 八级] 最远点对</strong>
+      <p>一棵黑白树中，找距离最远的一对白色和黑色节点。</p>
+    </a><a class="card" href="08-P10726.html">
+      <strong>08. P10726 · [GESP202406 八级] 空间跳跃</strong>
+      <p>人在水平挡板上左右走，到端点会下落到下方第一个挡板，求从起点挡板左端到目标挡板的最短时间。</p>
+    </a><a class="card" href="09-P11250.html">
+      <strong>09. P11250 · [GESP202409 八级] 手套配对</strong>
+      <p>n 对左右手套里取 m 只，要求刚好有 k 对完整手套，求取法数。</p>
+    </a><a class="card" href="10-P11251.html">
+      <strong>10. P11251 · [GESP202409 八级] 美丽路径</strong>
+      <p>树上一条路径相邻节点颜色必须不同，求最长这样的路径包含多少个节点。</p>
+    </a><a class="card" href="11-P11379.html">
+      <strong>11. P11379 · [GESP202412 八级] 树上移动</strong>
+      <p>在树上任选一条简单路径，要求经过的黑点不超过 k，求最多能经过多少个节点。</p>
+    </a><a class="card" href="12-P11380.html">
+      <strong>12. P11380 · [GESP202412 八级] 排队</strong>
+      <p>n 个同学排队，若干要求规定 a 必须紧挨着排在 b 前面，求合法队伍数。</p>
+    </a><a class="card" href="13-P11966.html">
+      <strong>13. P11966 · [GESP202503 八级] 上学</strong>
+      <p>无向带权图中，学校在 s，回答多个同学从家到学校的最短时间。</p>
+    </a><a class="card" href="14-P11967.html">
+      <strong>14. P11967 · [GESP202503 八级] 割裂</strong>
+      <p>删除一个点后，所有好点对仍连通，但坏点对必须不连通，问这样的点有多少个。</p>
+    </a><a class="card" href="15-P13019.html">
+      <strong>15. P13019 · [GESP202506 八级] 树上旅行</strong>
+      <p>有根树上多次旅行，正数表示往父亲走很多步，负数表示往编号最小的儿子走很多步，求终点。</p>
+    </a><a class="card" href="16-P13020.html">
+      <strong>16. P13020 · [GESP202506 八级] 遍历计数</strong>
+      <p>任选起点、任选每个点访问邻居的顺序，问一棵树能产生多少种不同 DFS 遍历序。</p>
+    </a><a class="card" href="17-P14079.html">
+      <strong>17. P14079 · [GESP202509 八级] 最短距离</strong>
+      <p>巨大完全图中，两数互质边权为 p，不互质边权为 q，回答两点最短距离。</p>
+    </a><a class="card" href="18-P14080.html">
+      <strong>18. P14080 · [GESP202509 八级] 最小生成树</strong>
+      <p>对每条边，问删掉它以后图的最小生成树权值；如果图不连通就输出 -1。</p>
+    </a><a class="card" href="19-P14923.html">
+      <strong>19. P14923 · [GESP202512 八级] 猫和老鼠</strong>
+      <p>猫从猫窝出发，老鼠只拿安全点的奶酪；安全表示老鼠能一路严格早于猫到达路径上的每个点并逃到洞里。</p>
+    </a><a class="card" href="20-P14924.html">
+      <strong>20. P14924 · [GESP202512 八级] 宝石项链</strong>
+      <p>环形项链要切成尽量多段，每一段都必须包含全部 m 种宝石。</p>
+    </a><a class="card" href="21-P15804.html">
+      <strong>21. P15804 · [GESP202603 八级] 消息查找</strong>
+      <p>消息只能向前一条移动，或沿引用跳到更早消息；引用消息很少，回答从 x 到 y 的最少操作数。</p>
+    </a><a class="card" href="22-P15805.html">
+      <strong>22. P15805 · [GESP202603 八级] 子图最短路</strong>
+      <p>对每个点编号区间形成的诱导子图，求其中所有点对最短路之和，再把所有区间加起来。</p>
+    </a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

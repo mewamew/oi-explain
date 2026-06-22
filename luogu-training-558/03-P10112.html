@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P10112 题解 - 洛谷训练 558</title>
+  <style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #202124;
+  --muted: #68635c;
+  --line: #d9d2c4;
+  --accent: #0f766e;
+  --accent-2: #9a3412;
+  --soft: #eef7f4;
+  --code: #18212f;
+  --code-ink: #f7fafc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.72;
+}
+main {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0 24px;
+  margin-bottom: 20px;
+}
+.eyebrow {
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  margin: 0 0 12px;
+  letter-spacing: 0;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 820px;
+  margin: 0;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: #403b35;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffdf8;
+  color: var(--ink);
+}
+.card:hover { text-decoration: none; border-color: var(--accent); }
+.card strong { display: block; margin-bottom: 6px; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+section {
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+h3 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+ol, ul { padding-left: 1.35rem; }
+li + li { margin-top: 6px; }
+.hint {
+  background: var(--soft);
+  border-color: #b7ded5;
+}
+.lesson-panel {
+  border-left: 4px solid var(--accent);
+  background: #f5fbf8;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin: 12px 0 16px;
+}
+.lesson-panel p,
+.deep-body p,
+.code-guide li {
+  margin-top: 0;
+}
+.lesson-panel p:last-child,
+.deep-body p:last-child {
+  margin-bottom: 0;
+}
+.deep-body p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.micro-title {
+  display: inline-block;
+  min-width: 8em;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.sample-block, .code-block {
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--code-ink);
+  padding: 14px;
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.sample-title {
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 6px;
+}
+.code-block {
+  font-size: 12.5px;
+  max-height: none;
+}
+.code-lock .unlock-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  border: 1px solid #c8ddd6;
+  border-radius: 8px;
+  background: #f2faf7;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.code-lock label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.code-lock input {
+  width: 9em;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+.code-lock button {
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 14px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.code-lock button:hover { filter: brightness(0.95); }
+.code-status {
+  min-width: 8em;
+  color: var(--accent-2);
+  font-size: 13px;
+}
+.code-block.locked {
+  color: #cfd8e3;
+}
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+@media (max-width: 640px) {
+  main { width: min(100% - 20px, 1080px); padding-top: 18px; }
+  section { padding: 15px; }
+  .code-lock .unlock-panel { grid-template-columns: 1fr; }
+  .code-lock input { width: 100%; }
+  .footer-nav { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="topbar">
+    <a href="index.html">洛谷训练 558 题解索引</a>
+    <a href="https://www.luogu.com.cn/problem/P10112">打开洛谷题面</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">第 03 题 · P10112</div>
+    <h1>[GESP202312 八级] 奖品分配</h1>
+    <p class="subtitle">面向 GESP 八级练习的浅显题解。题面原文以洛谷为准，这里重点讲如何读题、如何一步步想到做法，以及代码怎样落地。</p>
+    <div class="meta"><span class="chip">组合计数</span><span class="chip">排列</span><span class="chip">阶乘</span><span class="chip">取模</span></div>
+  </header>
+
+  <section>
+    <h2>0. 类型标签</h2>
+    <p>组合计数, 排列, 阶乘, 取模</p>
+  </section>
+
+  <section>
+    <h2>1. 题意</h2>
+    <p>把若干种奖品分给 N 个有编号的同学，每人一个，奖品可以刚好用完，也可能剩 1 个，求分配方案数。</p>
+  </section>
+
+  <section class="hint">
+    <h2>2. 一点点思路提示</h2>
+    <p>同学是有编号的，所以不是只看每种奖品用了几个，还要看这些奖品分别给了哪些同学。</p>
+  </section>
+
+  <section>
+    <h2>3. 解题思路</h2>
+    <div class="lesson-panel">
+      <p><span class="micro-title">先读题抓信号</span>题面说每位同学都有学号，奖品同种之间没有区别，要求“方案数取模”。这说明它不是普通模拟，而是组合计数题。</p>
+      <p><span class="micro-title">为什么不能暴力</span>如果逐个同学尝试分奖品，N 到 1000，分支数量会爆炸。我们必须直接数方案，而不是真的枚举每种分法。</p>
+    </div>
+    <h3>先用几步抓住主线</h3>
+    <ol><li>如果所有奖品刚好 N 个，就是经典的“重复物品排列”：先把 N 个位置排好，再除掉同种奖品内部交换造成的重复。</li><li>如果奖品总数是 N+1，就一定会多出 1 个。可以枚举哪一种奖品多出来，等价于这一种少用 1 个。</li><li>把枚举式整理一下，会发现只需在刚才的基础上乘上奖品总数，也就是 N+1。</li><li>因为要取模，除法不能直接做，要预处理阶乘和逆元阶乘。</li></ol>
+    <h3>一步一步推到正解</h3>
+    <div class="deep-body">
+      <p>先想最简单的情况：奖品总数正好等于 N。N 个有编号的同学可以看成 N 个位置，我们要把多种奖品填进这些位置。</p>
+      <p>如果所有奖品都不同，排列数是 N!。但同一种奖品之间没有区别，交换两个同种奖品不会产生新方案，所以要把每种奖品内部的重复排列除掉。</p>
+      <p>于是得到 `N! / (a0! a1! ... )`。这里不需要孩子先懂高深公式，只要理解：先把所有位置排满，再把“同种奖品互换造成的重复”去掉。</p>
+      <p>再看奖品总数是 N+1 的情况。最后会剩下一件奖品。可以想成：从 N+1 件奖品里挑一件不发，剩下 N 件按刚才的方法分。</p>
+      <p>如果把所有可能剩下的奖品合起来算，刚好等价于在原来的分母不变的情况下多乘一个总数 N+1。样例 2 的 3 个同学、奖品数量 1 和 3，就是这个情况。</p>
+      <p>因为答案要对 10^9+7 取模，普通除法不能直接写。代码里把除以 a! 写成乘以 a! 的逆元。</p>
+    </div>
+    <h3>代码怎么对应这个想法</h3>
+    <ul class="code-guide"><li>`fact[i]` 保存 i!，`invFact[i]` 保存 i! 在模意义下的倒数。</li><li>每组先算 `fact[N]`，再乘每个 `invFact[a_i]`。</li><li>如果奖品总数是 N+1，再乘上 `sum`。</li><li>模数是质数，所以逆元可以用快速幂 `pow(x, MOD-2)` 求。</li></ul>
+    <p><strong>复杂度：</strong>预处理 O(MAX)，每组数据 O(M)。</p>
+  </section>
+
+  <section>
+    <h2>4. 用测试样例验证解题思路</h2>
+    <p>样例 3 2 1 2 中，3 个同学拿 1 个 0 号奖品和 2 个 1 号奖品，0 号奖品给谁有 3 种，所以答案是 3。</p>
+    <div class="samples">
+      <div>
+        <p class="sample-title">样例 1 输入</p>
+        <pre class="sample-block">3
+3 2 1 2
+3 2 1 3
+5 3 1 3 1</pre>
+        <p class="sample-title">样例 1 输出</p>
+        <pre class="sample-block">3
+4
+20</pre>
+      </div>
+
+      <div>
+        <p class="sample-title">样例 2 输入</p>
+        <pre class="sample-block">5
+100 1 100
+100 1 101
+20 2 12 8
+123 4 80 20 21 3
+999 5 101 234 499 66 99</pre>
+        <p class="sample-title">样例 2 输出</p>
+        <pre class="sample-block">1
+1
+125970
+895031741
+307187590</pre>
+      </div></div>
+  </section>
+
+  <section>
+    <h2>容易错的地方</h2>
+    <ul><li>总奖品数只可能是 N 或 N+1，这个条件很关键。</li><li>取模下的除法要写成乘逆元。</li></ul>
+  </section>
+
+  <section class="code-lock" data-pid="P10112" data-payload="x0tOLyY2Ut4utRSEBi2BkHAMjGZlDEW3wQAvBLGcAyf6GO8gUHNmLRG5EKeK7bznQdhAB4PajGBekkk/qKCdWezKRdIM8WjnhyLLS4j8LiSjmHTacoLFuaPZXZN6BFvWPewSH2/dI1+1m/xT6HaMQhcnQ7Xu4T9A81kdHGpepIaxYQHdqBaZZk6QjN0l6kr+mZ5LuV+tc9NfOxT0PGOecMbc6qePJNVaPuWOp8q3l0/fzcMRfWhV1vIJFXT3VN7Fw1Oqi9M6SUG25EoIEdlezWRyaU41cST5KN/lIeTGe74Q9Cc4yBJJCwkQO6nj68t69WdxGBNi14XHLyC0BOkhFT7R44fIKXEu82STziSuYa4I6QfibC/Qs0SHV9Q8svzhg1F+XRK1jAksO23QSxugt305QjnqAQopNY3FywdPFIidP5DEMiEBGhZtGdS9GcILI4oLwF3rZUbHOFOkJNFCUoOo8Fz/ckyFiFgBbTrVkilR98GxgZmN197EMv+XjqGovKtEEVwjMccxK+DSKBLtVbWygQNlAPiOotK0tCyCWO5HSnL4XMJL1np0K0MwBplPi9jLceKLIykR5E9zK8xVDiKfoqWwDmj0YqcuAVJ5UTOCyN4c0N5bLw2bO5oxlDJ3ciEFOkbXw7yLpRTFTtbRdRJhe/kpxmgkFyK7jHwY8Zjgly+il4aHIYOh1r5D+ePdjrt5Wpywn1oRYd4YvhvZpkLq8QBQGq4L9hEAAteAsFqk/B2SjERSzC/iMFwtDD7VWQSbEmnTcejqEgJpY3W2LHxwxqzo1vDcqbUsZOi5zvPdc/hC91x1FfF0hr0lyGJBV3dxzBG5ThzLmGXXr4imU2/7X/V2BXHVyrypOGGcc5eW+a/C/siDEUZvJP9E3mzVv0waOFpPLOclorsYPYFLyvEmilPLe44+B7w1SvMc19q4j/JS/VUax69iYBnppdYff8lGJjFsX/+kafhYI06kWtI6+0lsyWKDR6qliPO4Yeqksk190GISrBwKVZ29Rf+zJML/IKs88dCWWSBWOGHLTqkXUCaQRqJ272dFC0d2DLEiuQhERtDyokStHbwVmTjuNDjdvOmKD3Osv5x7uDZYO/SDjjpg4/+M/78JYNq8E5FzAwMLrPEbCPFUT1JJcl7ZFm8egXIOaX3R7q5IupSjvmv3Iq8SlhuEOyItuy+yh1MlrxtbuSCq0ecjExDQ8fgr/k5EsatQNEMMr1Sm+n8DF2a1XjHFke/llVD7XQTOzYcu32maV/68+p83hnFUzfHaDG5lA9dHUTJeCXZXyIB3CQWcOFHQoZ1oPoDnJBK8vHAo8CQuYpeoqJ+AeFBZUbWkswW3DDrn0CfHHxGb27ezf2oPSuGlh+trOS/JTH13QjeaC22qF3DAgdV8cBMY22g32xw=">
+    <h2>C++ 实现代码</h2>
+    <div class="unlock-panel">
+      <label>本题代码密码
+        <input class="code-password" type="password" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="off" placeholder="6 位数字">
+      </label>
+      <button class="unlock-button" type="button">查看代码</button>
+      <span class="code-status" aria-live="polite"></span>
+    </div>
+    <pre class="code-block locked"><code>代码已锁定。输入本题 6 位密码后显示。</code></pre>
+  </section>
+
+  <section>
+    <h2>校验袋记录</h2>
+    <p>本页生成后会由独立校验脚本抽取 C++17 代码，编译并运行洛谷题面缓存中的样例；同时检查章节、链接、标签和样例块是否齐全。</p>
+  </section>
+
+  <div class="footer-nav">
+    <a class="card" href="02-P10289.html">← 上一题：P10289</a>
+    <a class="card" href="04-P10113.html">下一题：P10113 →</a>
+  </div>
+</main>
+<script>
+(function () {
+  const MASK = (1n << 64n) - 1n;
+  const OFFSET = 14695981039346656037n;
+  const PRIME = 1099511628211n;
+  const STEP = 0x9E3779B97F4A7C15n;
+
+  function seedFromText(text) {
+    let seed = OFFSET;
+    for (let i = 0; i < text.length; i += 1) {
+      seed ^= BigInt(text.charCodeAt(i) & 255);
+      seed = (seed * PRIME) & MASK;
+    }
+    return seed;
+  }
+
+  function splitmix64(state) {
+    state = (state + STEP) & MASK;
+    let z = state;
+    z = ((z ^ (z >> 30n)) * 0xBF58476D1CE4E5B9n) & MASK;
+    z = ((z ^ (z >> 27n)) * 0x94D049BB133111EBn) & MASK;
+    z = (z ^ (z >> 31n)) & MASK;
+    return [state, z];
+  }
+
+  function streamBytes(pid, password, length) {
+    let state = seedFromText(`${password}:${pid}:GESP8`);
+    const out = new Uint8Array(length);
+    let offset = 0;
+    while (offset < length) {
+      let mixed;
+      [state, mixed] = splitmix64(state);
+      for (let i = 0; i < 8 && offset < length; i += 1) {
+        out[offset] = Number((mixed >> BigInt(8 * i)) & 255n);
+        offset += 1;
+      }
+    }
+    return out;
+  }
+
+  function decodePayload(payload, pid, password) {
+    const raw = atob(payload);
+    const cipher = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i += 1) cipher[i] = raw.charCodeAt(i);
+    const stream = streamBytes(pid, password, cipher.length);
+    const plain = new Uint8Array(cipher.length);
+    for (let i = 0; i < cipher.length; i += 1) plain[i] = cipher[i] ^ stream[i];
+    const text = new TextDecoder("utf-8", { fatal: false }).decode(plain);
+    const marker = `// LUOGU558:${pid}\n`;
+    if (!text.startsWith(marker)) throw new Error("bad password");
+    return text.slice(marker.length).replace(/\s+$/, "");
+  }
+
+  document.querySelectorAll(".code-lock").forEach((box) => {
+    const input = box.querySelector(".code-password");
+    const button = box.querySelector(".unlock-button");
+    const status = box.querySelector(".code-status");
+    const code = box.querySelector("code");
+    const pre = box.querySelector("pre");
+    const pid = box.dataset.pid;
+    const payload = box.dataset.payload;
+
+    function unlock() {
+      const password = (input.value || "").trim();
+      if (!/^\d{6}$/.test(password)) {
+        status.textContent = "请输入 6 位数字密码";
+        return;
+      }
+      try {
+        code.textContent = decodePayload(payload, pid, password);
+        pre.classList.remove("locked");
+        status.textContent = "已解锁";
+        input.value = "";
+      } catch (error) {
+        status.textContent = "密码不对";
+      }
+    }
+
+    button.addEventListener("click", unlock);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") unlock();
+    });
+  });
+}());
+</script>
+</body>
+</html>
